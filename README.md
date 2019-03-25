@@ -715,9 +715,9 @@ grep -v '^[[:space:]]*\(\#\|\$\|$\)' file.txt
 - Whole thing must be in sinqle quotes because of the `(option1|option2|option3)` syntax (this or this or this).
 - `^[[:space:]]*` matches lines beginning with zero to any whitespace (tabs or spaces).
 - `\(` starts the list of OR matches. The options are separated by `\|`.  
--- `\#` matches lines that start with `#` (or any amount of whitespace and `#`). 
--- `\$` matches lines that start with `$` (or any amount of whitespace and `$`). 
--- `$` matches the end of the line (empty lines, or lines with only whitespace). 
+ - `\#` matches lines that start with `#` (or any amount of whitespace and `#`). 
+ - `\$` matches lines that start with `$` (or any amount of whitespace and `$`). 
+ - `$` matches the end of the line (empty lines, or lines with only whitespace). 
 
 ## Same as above, but only for # comments:
 ```
