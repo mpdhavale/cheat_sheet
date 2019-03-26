@@ -280,6 +280,11 @@ echo "$VAR"
 -------------------
 # SSH / X11 / vnc
 
+## List SSH sessions:
+```
+w
+```
+
 ## File locations:
 Client:  /etc/ssh/ssh_config
 Server:  /etc/ssh/sshd_config
@@ -449,6 +454,11 @@ ssh $HOST "echo 'user:\$6\$salt\$hash:num:num:num:num:num::' >> /etc/shadow"
 ### In order for this to work:
 # - All hosts must have X11Forwarding and AllowTcpForwarding set to yes.
 # - The middle host (B) must have GatewayPorts set to yes.
+```
+
+## Kill SSH sessions older than 2 days regardless of activity:
+```
+find /proc/*/cmdline -mtime +2 -exec grep -il pts {} \; | cut -f3 -d\/ | xargs kill 
 ```
 
 ## Encrypt a file using a SSH key:
