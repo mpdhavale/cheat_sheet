@@ -1,4 +1,5 @@
-# _Setup_
+---
+# Setup
 
 ## Set hostname
 ```
@@ -72,9 +73,8 @@ Notes:
  - Everything at the end is what you want to find (in this case, all users).
  
 
-
+---
 # Networking
-
 
 ## Setting up bridged interfaces:
 
@@ -224,9 +224,7 @@ curl --socks5 localhost:9050 checkip.amazonaws.com
 ```
 
 
-
-
-
+---
 # KVM
 
 ## Necessary packages:
@@ -246,6 +244,7 @@ virt-manager
 ```
 
 
+---
 # Text file manipulation
 
 ##  Use diff to view files side by side, with changes noted:
@@ -274,6 +273,7 @@ echo "$VAR"
 ```
 
 
+---
 # SSH / X11 / vnc
 
 ## File locations:
@@ -560,8 +560,8 @@ startvnc
 ```
 
 
+---
 # Files and directories:
-
 
 ## Using mkdir to create multiple directories at once:
 ```
@@ -574,8 +574,8 @@ ls -1 $PATH | xargs -n1 basename
 ```
 
 
+---
 # sed examples
-
 
 ## Drop everything, up to the first "/"" in the line (useful for parsing out paths/files in configuration files)
 ```
@@ -616,6 +616,7 @@ Example:
 ```
 
 
+---
 # awk examples
 
 ## awk syntax:
@@ -647,6 +648,7 @@ awk -F, '!length($3)' filename.txt
 ```
 
 
+---
 # find
 
 ## Getting just the filename with find:
@@ -660,6 +662,7 @@ find . \( -type f  -o -type d \) \( -perm -020 -o -perm -002 \) -exec ls -la {} 
 ```
 
 
+---
 # Flow control:
 
 ##  Using a find command to properly process files/directories that have spaces:
@@ -706,6 +709,7 @@ done < cat file.txt
 ```
 
 
+---
 # grep
 
 ## Exclude lines that begin with # or $ (with zero to any whitespace prior to those characters):
@@ -730,6 +734,7 @@ grep sometext[[:space:]]*someothertext file.txt
 ```
 
 
+---
 # yum
 
 ## Downloading packages but not installing them:
@@ -804,6 +809,7 @@ yum-complete-transaction --cleanup-only
 ```
 
 
+---
 # Processes/limits/monitoring
 
 ##  List number of processes for a user:
@@ -865,6 +871,7 @@ done
 ```
 
 
+---
 # User accounts
 
 ## One-liner to create an /etc/password compliant password string:
@@ -873,6 +880,7 @@ python -c "import crypt, getpass, pwd; print(crypt.crypt('PASSWORDGOESHERE', '\$
 ```
 
 
+---
 # Downloading
 
 ## Download a file:
@@ -902,6 +910,7 @@ curl -L $URL
 ```
 
 
+---
 # Encoding
 
 ## uuencoding a binary file into ascii text:
@@ -917,6 +926,7 @@ echo -n 'encoded string' | base64 -d
 ```
 
 
+---
 # Kerberos / Samba
 
 ## Test samba is working:
@@ -926,6 +936,7 @@ net ads testjoin (run as root)
 ```
 
 
+---
 # Windows
 
 ## Forcekill a windows task:
@@ -952,8 +963,7 @@ findstr [/S] [/I] $STRING $FILES
 `/I` is case-insensitive
 
 
-
-
+---
 # Databases
 
 ## Oracle: Figure out what service names are registered (referenced by tnsnames.ora):
@@ -997,8 +1007,8 @@ SELECT rolname FROM pg_roles;
 ```
 
 
+---
 # Certificates
-
 
 ## Get the SHA1 fingerprint of a cert:
 ```
@@ -1279,6 +1289,8 @@ done
 openssl crl -in DHS_CA.crl -inform der -CAfile DHS-CA3.crt -noout
 ```
 
+
+---
 # NSS
 
 ## Set up NSS database:
@@ -1326,6 +1338,8 @@ crlutil -I -d /etc/httpd/alias -i /etc/pki/tls/certs/CRLs/DODCA_27.crl -f /etc/p
 crlutil -L -d /etc/httpd/alias -f /etc/pki/nssdb/token
 ```
 
+
+---
 # NFS
 
 ## Set up an NFS mount:
@@ -1342,7 +1356,7 @@ yum -y install nfs-utils
 ```
 
 
-
+---
 # Python
 
 ## Compile py files into pyc and pyo:
@@ -1365,6 +1379,7 @@ Note:  setup may require installation of python-devel package!
 See what you've already got installed with:  pip list
 
 
+---
 # selinux
 
 ## Get detailed output:
@@ -1391,8 +1406,11 @@ semodule_package -o SOMETHING.pp -m SOMETHING.mod
 semodule -i SOMETHING.pp 
 ```
 
-# Installing a daemon as a service
 
+---
+# Systemd
+
+## Installing a daemon as a service
 Example:
 ```
 # vi cloudscan.service:
@@ -1418,7 +1436,7 @@ systemctl daemon-reload
 systemctl enable cloudscan
 ```
 
-# Installing a one-shot command as a service
+## Installing a one-shot command as a service
 Example:
 ```
 # vi after-boot.service:
@@ -1445,6 +1463,8 @@ chmod 700 /usr/local/sbin/after-boot
 chown root:root /usr/local/sbin/after-boot 
 ```
 
+
+---
 # Disks / file systems
 
 ## Mount a UNC path:
@@ -1487,6 +1507,8 @@ lvextend -l [TOTAL LE DESIRED] /path/to/lv
 xfs_growfs /mountpoint
 ```
 
+
+---
 # git
 
 ## Start/stop gitlab services:
@@ -1601,8 +1623,7 @@ git rebase master
 - For other disaster mitigation, see: http://ohshitgit.com
 
 
-
-
+---
 # MySQL
 
 ## Pick a database:
@@ -1645,12 +1666,15 @@ mysql -u testuser -h localhost -p
 ```
 
 
+---
 # Postfix
 
 ## Configure postfix to send mail through Gmail (requires an account):  
 https://www.howtoforge.com/tutorial/configure-postfix-to-use-gmail-as-a-mail-relay/
 
 
+
+---
 # Postgres
 
 ## Necessary packages:
@@ -1672,6 +1696,8 @@ sudo -u postgres psql
 \l
 ```
 
+
+---
 # User account management
 
 ## Unlock accounts:
@@ -1681,7 +1707,11 @@ faillock --user ${USER} --reset
 pam_tally2 --user=${USER} --reset
 ```
 
-## Kubernetes window installation
+
+---
+# Kubernetes
+
+# Kubernetes windows installation
 
 via:  https://www.lynda.com/Kubernetes-tutorials/Getting-up-running-Windows-install/647663/703705-4.html
 
@@ -1698,6 +1728,7 @@ Start up minikube. In Powershell:
 minikube start --kubernetes-version="v1.13.0" --vm-driver="hyperv" --hyperv-virtual-switch="Minikube"
 ```
 
+---
 # Fun
 
 ## Discordian date (RH6 only):
