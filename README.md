@@ -1,4 +1,4 @@
-# Setup
+# _Setup_
 
 ## Set hostname
 ```
