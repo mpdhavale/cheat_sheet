@@ -1756,7 +1756,7 @@ Create a project with this git project / download this playbook:
 ```
 https://github.com/ajacocks/rhel7_disa_stig.git
 ```
-# Create a template.  Run the playbook, but supply these Skip Tags:
+Create a template.  Run the playbook, but supply these Skip Tags:
 ```
 CCE-27361-5
 CCE-27485-2
@@ -1785,7 +1785,8 @@ NOTE: you can use the `shell` or `command` module. Shell is preferred:
 ansible $HOSTGROUP -m setup
 ```
 
-## Using the Package module (http://docs.ansible.com/ansible/package_module.html)
+## Using the Package module: 
+http://docs.ansible.com/ansible/package_module.html
 
 ### Install a specific version (even if out of date):
 ```
