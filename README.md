@@ -1742,6 +1742,184 @@ Start up minikube. In Powershell:
 minikube start --kubernetes-version="v1.13.0" --vm-driver="hyperv" --hyperv-virtual-switch="Minikube"
 ```
 
+
+-------------------
+# Ansible
+
+## Applying STIG to RHEL7 (via RH module):
+Site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
+Install the role:
+```
+ansible-galaxy install redhatofficial.rhel7_disa_stig [-p /etc/ansible/roles]
+```
+Create a project with this git project / download this playbook:
+```
+https://github.com/ajacocks/rhel7_disa_stig.git
+```
+# Create a template.  Run the playbook, but supply these Skip Tags:
+```
+CCE-27361-5
+CCE-27485-2
+CCE-27311-0
+CCE-80546-5
+```
+
+## Check if hosts are up using the ping module:
+ansible $HOSTGROUP -m ping
+
+
+## Run a shell command on a host with the shell module:
+```
+ansible $HOSTGROUP -m shell [-o] [-b] -a "$COMMAND"
+```
+- The -o option will keep output all on one line. 
+- The -b option will run the command as root.
+
+NOTE: you can use the `shell` or `command` module. Shell is preferred:
+- shell gets run through a shell, and so picks up environment variables like $HOME.
+- shell allows redirection, command does not.
+
+
+## Get facts about hosts using the setup module:
+```
+ansible $HOSTGROUP -m setup
+```
+
+## Using the Package module (http://docs.ansible.com/ansible/package_module.html)
+
+### Install a specific version (even if out of date):
+```
+ansible $HOSTGROUP -m package -b -a "name=${PACKAGE}-${VERSION} state=present" 
+```
+EX:   `ansible web -m package -b -a "name=subversion-1.7.14-11.el7_4 state=present"` 
+
+### Install packages:
+```
+ansible $HOSTGROUP -m package -b -a "name=${PACKAGE} state=latest"	
+```
+Note: "present" and "installed" are equivalent to each other, but will disregard version.
+
+### Remove packages:
+```
+ansible $HOSTGROUP -m package -b -a "name=${PACKAGE} state=absent"
+```
+Note: "removed" and "absent" are equivalent.
+
+### Command that is essentially a `yum update` equivalent:
+```
+ansible $HOSTGROUP -m package -b -a "name=* state=latest"
+```
+
+## Using the Service module to start/stop a service:
+```
+ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=started" 
+ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=stopped" 
+```
+
+## Other modules:
+
+### Check out a repo onto a node:
+```
+ansible $HOSTGROUP -m git -a "repo=${REPO_URL} dest=${DESTINATION_FOLDER}"
+```
+EX: `ansible web -m git -a "repo=https://github.com/jboss-developer/jboss-eap-quickstarts.git dest=/tmp/checkout"`
+
+### Have the node test a connection to a website:
+```
+ansible $HOSTGROUP -m uri -a "url=${URL} return_content=yes"
+```
+
+## Playbooks:
+Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
+
+### Structure:
+```
+---
+- hosts: $HOSTGROUP
+  name:  $PLAY_NAME
+  become: yes
+
+  vars:
+    install_packages:		# Can be anything, just has to match what's in "with_items"
+      - $VAL1
+      - $VAL2
+    $VARNAME: $VALUE
+
+  tasks:
+
+    - name: Install packages
+      package:
+        name: "{{ item }}"
+        state: latest
+      with_items: "{{ install_packages }}"
+      notify: $HANDLER_NAME				# Restarts service
+
+    - name: Create a directory
+      file:
+        name: $ABS_PATH_TO_DIRECTORY
+        state: directory
+
+    - name: copy $FILE
+      template:
+        src: templates/${FILE}
+        dest: ${ABS_PATH_TO_FILE}			# Can be jinja template (*.j2).  Just normal files that reference/substitute:   {{ $VARNAME }}
+      notify: $HANDLER_NAME				# handler, if necessary
+
+    # This is an explicit restart at the end.  However, the handler is also doing this. 
+    - name: Start service $SERVICE_NAME
+      service:
+        name: $SERVICE_NAME
+        state: started
+	enabled: yes
+
+  handlers:
+
+    - name: $HANDLER_NAME
+      service:
+        name: $SERVICE_NAME
+        state: restarted
+        enabled: yes
+```
+
+### Running a playbook:
+```
+ansible-playbook -i $PATH_TO_HOSTS_FILE --private-key=${PATH_TO_PRIVATE_KEY} ${PLAYBOOK}
+```
+EX:  `ansible-playbook -i ../hosts --private-key=~/.ssh/westfields-tower stop_apache.yml`
+
+Notes:
+- Facts are gathered by default (always the first task).
+- You don't have to specify the inventory file if it's in the same directory where you're running the ansible-playbook command.
+- You don't have to specify a private key if you are running in the home directory of the same user. 
+EX:  cd ~; ansible-playbook ${PATH_TO_PLAYBOOK}
+
+### Create directory structure for a role:
+```
+cd $PROJECT
+mkdir roles
+cd roles
+ansible-galaxy init $ROLENAME
+```
+NOTES:
+- This creates all the necessary subdirectories in roles/${ROLENAME}.  You will have to populate everything yourself.
+- This will NOT modify your site.yml.  Where stuff goes:
+   - hosts, name, become:		These sill go in site.yml at the top level project folder.
+   - handlers, tasks, templates:	These go in their respective folders. 
+   - vars:				These can go in site.yml, vars/main.yml, default/main.yml, or a lot of other places: 
+					http://docs.ansible.com/ansible/latest/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+
+### Example site.yml to call a role:
+```
+---
+- hosts: web
+  name: This is a role-based playbook
+  become: yes
+    
+  roles:
+    - apache-simple
+```
+
+
 -------------------
 # Fun
 
