@@ -939,6 +939,12 @@ echo -n 'string_to_encode' | base64
 echo -n 'encoded string' | base64 -d
 ```
 
+## Generate a base64 or hex string of arbitrary length (suitable for password generation):
+```
+openssl rand -base64 ${LENGTH}
+openssl rand -hex ${LENGTH}
+```
+
 
 -------------------
 # Kerberos / Samba
