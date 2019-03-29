@@ -1885,7 +1885,7 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
     - name: Install packages
       package: name="{{ item }}" state=latest
       with_items: "{{ install_packages }}"
-      notify: $HANDLER_NAME				# Restarts service
+      notify: $HANDLER_NAME			# Kicks off a handler
 
     - name: Create a directory
       file:
@@ -1898,9 +1898,9 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 
     - name: Copy some $FILE to a destination
       template:
-        src: templates/${FILE}
-        dest: ${ABS_PATH_TO_FILE}			# Can be jinja template (*.j2).  Just normal files that reference/substitute:   {{ $VARNAME }}
-      notify: $HANDLER_NAME				# handler, if necessary
+        src: templates/${FILE}			# Jinja template (*.j2) - files that reference/substitute:   {{ $VARNAME }}
+        dest: ${ABS_PATH_TO_FILE}			
+      notify: $HANDLER_NAME			# Kicks off a handler
 
     # This is an explicit restart at the end.  However, the handler is also doing this. 
     - name: Start service $SERVICE_NAME
@@ -1911,7 +1911,7 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 
   handlers:
 
-    - name: $HANDLER_NAME
+    - name: $HANDLER_NAME			# Example: "Start nginx", or whatever the service name is.
       service:
         name: $SERVICE_NAME
         state: restarted
