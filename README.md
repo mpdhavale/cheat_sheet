@@ -942,7 +942,7 @@ echo -n 'encoded string' | base64 -d
 ## Generate a base64 or hex string of arbitrary length (suitable for password generation):
 ```
 openssl rand -base64 ${LENGTH}
-openssl rand -hex ${LENGTH}
+openssl rand -hex ${LENGTH_DIVIDED_BY_TWO}
 ```
 
 
@@ -1918,6 +1918,30 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         name: $SERVICE_NAME
         state: restarted
         enabled: yes
+```
+
+### Playbook snippet for mysql:
+```
+- name: Generate new root password
+  command: openssl rand -hex 8
+  register: mysql_new_root_pass
+
+- name: Remove anonymous users
+  mysql_user: name="" state=absent
+ 
+- name: Remove test database
+  mysql_db: name=test state=absent
+
+- name: Update root password
+  mysql_user: name=root host={{item}} password={{mysql_new_root_pass.stdout}}
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+
+- name: Output new root password
+  debug: msg="New root password is {{mysql_new_root_pass.stdout}}"
 ```
 
 ### Running a playbook:
