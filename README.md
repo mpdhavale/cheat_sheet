@@ -1878,14 +1878,12 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
     install_packages:		# Can be anything, just has to match what's in "with_items"
       - $VAL1
       - $VAL2
-    $VARNAME: $VALUE
+    $VARNAME: $VALUE		# Some other variable(s)
 
   tasks:
 
     - name: Install packages
-      package:
-        name: "{{ item }}"
-        state: latest
+      package: name="{{ item }}" state=latest
       with_items: "{{ install_packages }}"
       notify: $HANDLER_NAME				# Restarts service
 
@@ -1920,18 +1918,28 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         enabled: yes
 ```
 
-### Playbook snippet for mysql:
+### Playbook snippet for setting up mysql:
 ```
+# The following checks for existence of /root/.my.cnf.
+# If the file exists, then mysql_new_root_pass.changed is false, and consequently
+# the rest of the commands are not run.  This prevents the mysql root password
+# from changing each time you run the playbook!
 - name: Generate new root password
-  command: openssl rand -hex 8
+  command: openssl rand -hex 8 creates=/root/.my.cnf
   register: mysql_new_root_pass
-
+  
 - name: Remove anonymous users
   mysql_user: name="" state=absent
- 
+  when: mysql_new_root_pass.changed
+  
 - name: Remove test database
   mysql_db: name=test state=absent
-
+  when: mysql_new_root_pass.changed
+  
+- name: Output new root password
+  debug: msg="New root password is {{mysql_new_root_pass.stdout}}"
+  when: mysql_new_root_pass.changed
+  
 - name: Update root password
   mysql_user: name=root host={{item}} password={{mysql_new_root_pass.stdout}}
   with_items:
@@ -1939,9 +1947,17 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
     - 127.0.0.1
     - ::1
     - localhost
-
-- name: Output new root password
-  debug: msg="New root password is {{mysql_new_root_pass.stdout}}"
+  when: mysql_new_root_pass.changed
+  
+- name: Create my.cnf
+  template: src=templates/mysql/my.cnf.j2 dest=/root/.my.cnf
+  when: mysql_new_root_pass.changed
+```
+Note: this requires the existence of a template called `templates/mysql/my.cnf.j2` with the following contents:
+```
+[client]
+user=root
+password={{ mysql_new_root_pass.stdout }}
 ```
 
 ### Running a playbook:
