@@ -1746,6 +1746,34 @@ minikube start --kubernetes-version="v1.13.0" --vm-driver="hyperv" --hyperv-virt
 -------------------
 # Ansible
 
+## Inventory files
+Inventory files can be separated into groups like so:
+```
+[web]
+host1.example.com
+host2.example.com
+
+[database]
+db.example.com
+```
+You can also pass parameters on the host lines like so.  
+The following is how you set up your inventory file so you can run ansible commands against a vagrant host:
+```
+192.168.33.10 ansible_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/default/virtualbox/private_key
+```
+
+You can also pass custom variables that can be used by the playbook.  
+For instance, two different inventories for the same host(s) that use environment-specific variables:
+```
+$ cat staging-inventory
+alpha.example.com database_name=staging_db
+
+$ cat production-inventory
+alpha.example.com database_name=prod
+
+$ ansible-playbook –i production-inventory playbook.yml
+```
+
 ## Applying STIG to RHEL7 (via RH module):
 Site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
 Install the role:
