@@ -1893,8 +1893,12 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
       file:
         name: $ABS_PATH_TO_DIRECTORY
         state: directory
+	
+    - name: Run a command and capture the output as a variable
+      command: $SOME_COMMAND
+      register: $SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT
 
-    - name: copy $FILE
+    - name: Copy some $FILE to a destination
       template:
         src: templates/${FILE}
         dest: ${ABS_PATH_TO_FILE}			# Can be jinja template (*.j2).  Just normal files that reference/substitute:   {{ $VARNAME }}
