@@ -1851,12 +1851,6 @@ ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=started"
 ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=stopped" 
 ```
 
-## One-liner to reboot everything in an inventory file:
-Via http://www.pidramble.com/wiki/setup/network
-```
-ansible all -i inventory -m shell -a "sleep 1s; shutdown -r now" -b -B 60 -P 0
-```
-
 ## Other modules:
 
 ### Check out a repo onto a node:
@@ -1868,6 +1862,22 @@ EX: `ansible web -m git -a "repo=https://github.com/jboss-developer/jboss-eap-qu
 ### Have the node test a connection to a website:
 ```
 ansible $HOSTGROUP -m uri -a "url=${URL} return_content=yes"
+```
+
+## One-liners:
+Via http://www.pidramble.com/wiki/setup/test-ansible
+
+Reboot all hosts in an inventory file:
+```
+ansible all -i inventory -m shell -a "sleep 1s; shutdown -r now" -b -B 60 -P 0
+```
+Get disk usage of everything in an inventory file:
+```
+ansible all -i inventory -a "df -h"
+```
+Get current memory usage of everything in an inventory file:
+```
+ansible all -i inventory -a "free -m"
 ```
 
 ## Playbooks:
