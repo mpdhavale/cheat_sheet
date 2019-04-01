@@ -1896,11 +1896,17 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
       command: ${SOME_COMMAND}
       register: ${SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT}
       
-    - name: Fetch a URL checksum and capture the output as a variable:
+    - name: Fetch a URL checksum and capture the output as a variable
       uri: 
         url: https://${SOME_WEBSITE}/${SOME_FILE}.sha1 
 	return_content: true
-      register: ${CHECKSUM_VARIABLE}
+      register: file_checksum			# This will be used in the next step
+      
+    - name: Download a file from the web and check it against a previously collected checksum
+      get_url: 
+        url: https://${SOME_WEBSITE}/${SOME_FILE}
+	dest: ${ABS_PATH_TO_FILE} 
+	checksum: "sha1:{{file_checksum.content}}"
 
     - name: Copy some $FILE to a destination
       copy:  
