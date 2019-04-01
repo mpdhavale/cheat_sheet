@@ -1958,14 +1958,14 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 - name: Remove test database
   mysql_db: name=test state=absent
   when: mysql_new_root_pass.changed
- 
-### Optional database/user creation:
+
+### Optional database/user commands:
 - name: Create adhoc database
   mysql_db: name=wordpress state=present
 - name: Create adhoc user
   mysql_user: name=wordpress host=localhost password=bananas priv=wordpress.*:ALL
-### End optional commands
- 
+### End optional commands. 
+
 - name: Generate new root password
   command: openssl rand -hex 8 creates=/root/.my.cnf
   register: mysql_new_root_pass
@@ -1992,6 +1992,22 @@ Note: this requires the existence of a template called `templates/mysql/my.cnf.j
 [client]
 user=root
 password={{ mysql_new_root_pass.stdout }}
+```
+
+Other mysql commands:
+```
+- name: Check database existence
+  command: mysql -u root wordpress -e "SELECT ID FROM wordpress.wp_users LIMIT 1;"
+  register: db_exist
+  ignore_errors: true
+  
+  # Copy and restore database from backup if database doesn't exist:
+- name: Copy WordPress DB
+  copy: src=files/wp-database.sql dest=/tmp/wp-database.sql
+  when: db_exist.rc > 0
+- name: Import WordPress DB
+  mysql_db: target=/tmp/wp-database.sql state=import name=wordpress
+  when: db_exist.rc > 0
 ```
 
 ### Running a playbook:
