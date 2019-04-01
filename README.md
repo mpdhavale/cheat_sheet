@@ -1727,11 +1727,58 @@ faillock --user ${USER} --reset
 pam_tally2 --user=${USER} --reset
 ```
 
+-------------------
+# OSCAP
+
+Source:
+https://access.redhat.com/documentation/en-us/red_hat_enterprise_linux/7/html/security_guide/sect-using_oscap
+
+Install pre-reqs:
+```
+yum install openscap-utils scap-security-guide
+```
+
+Get the latest benchmark.  This URL will change:
+```
+wget https://iasecontent.disa.mil/stigs/zip/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.zip
+```
+
+Unzip, and put the XML file in the normal SCAP content location:
+```
+unzip U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.zip
+mv U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml /usr/share/xml/scap/ssg/content/
+```
+
+View available profiles:
+```
+oscap info /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml
+```
+
+Scan using DISA content:
+```
+oscap xccdf eval --profile xccdf_mil.disa.stig_profile_MAC-1_Classified --results DoD_STIG_scan-pre-remediation.xml --report DoD_STIG_scan-pre-remediation.html /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml
+```
+
+Perform remediation in one of two ways:
+1) Create shell script with SSG content:
+```
+oscap xccdf generate fix --template urn:xccdf:fix:script:sh --profile stig-rhel7-disa --output remediation-script.sh /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
+```
+2) Automatic remediation with SSG content (not recommended):
+```
+oscap xccdf eval --remediate --profile stig-rhel7-disa --results scan-sccdf-results.xml /usr/share/xml/scap/ssg/content/ssg-rhel7-ds.xml
+```
+
+Re-scan with DISA content:
+```
+oscap xccdf eval --profile xccdf_mil.disa.stig_profile_MAC-1_Classified --results DoD_STIG_scan-post-remediation.xml --report DoD_STIG_scan-post-remediation.html /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml
+```
+
 
 -------------------
 # Kubernetes
 
-# Kubernetes windows installation
+## Kubernetes windows installation
 
 via:  https://www.lynda.com/Kubernetes-tutorials/Getting-up-running-Windows-install/647663/703705-4.html
 
@@ -1781,7 +1828,9 @@ $ ansible-playbook –i production-inventory playbook.yml
 ```
 
 ## Applying STIG to RHEL7 (via RH module):
-Site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
+Module site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
+Source site: https://github.com/RedHatOfficial/ansible-rhel7-disa-stig-role
+
 Install the role:
 ```
 ansible-galaxy install redhatofficial.rhel7_disa_stig [-p /etc/ansible/roles]
