@@ -1942,10 +1942,7 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 # If the file exists, then mysql_new_root_pass.changed is false, and consequently
 # the rest of the commands are not run.  This prevents the mysql root password
 # from changing each time you run the playbook!
-- name: Generate new root password
-  command: openssl rand -hex 8 creates=/root/.my.cnf
-  register: mysql_new_root_pass
-  
+
 - name: Remove anonymous users
   mysql_user: name="" state=absent
   when: mysql_new_root_pass.changed
@@ -1953,6 +1950,17 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 - name: Remove test database
   mysql_db: name=test state=absent
   when: mysql_new_root_pass.changed
+ 
+### Optional database/user creation:
+- name: Create adhoc database
+  mysql_db: name=wordpress state=present
+- name: Create adhoc user
+  mysql_user: name=wordpress host=localhost password=bananas priv=wordpress.*:ALL
+### End optional commands
+ 
+- name: Generate new root password
+  command: openssl rand -hex 8 creates=/root/.my.cnf
+  register: mysql_new_root_pass
   
 - name: Output new root password
   debug: msg="New root password is {{mysql_new_root_pass.stdout}}"
