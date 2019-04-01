@@ -1870,50 +1870,62 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 ### Structure:
 ```
 ---
-- hosts: $HOSTGROUP
-  name:  $PLAY_NAME
+- hosts: ${HOSTGROUP}		# defaults to "all"
+  name:  ${PLAYBOOK_NAME}
   become: yes
 
   vars:
     install_packages:		# Can be anything, just has to match what's in "with_items"
-      - $VAL1
-      - $VAL2
-    $VARNAME: $VALUE		# Some other variable(s)
+      - ${VAL1}
+      - ${VAL2}
+    $VARNAME: ${VALUE}		# Some other variable(s)
 
   tasks:
 
     - name: Install packages
       package: name="{{ item }}" state=latest
       with_items: "{{ install_packages }}"
-      notify: $HANDLER_NAME			# Kicks off a handler
+      notify: ${HANDLER_NAME}			# Kicks off a handler
 
     - name: Create a directory
       file:
-        name: $ABS_PATH_TO_DIRECTORY
+        name: ${ABS_PATH_TO_DIRECTORY}
         state: directory
 	
     - name: Run a command and capture the output as a variable
-      command: $SOME_COMMAND
-      register: $SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT
+      command: ${SOME_COMMAND}
+      register: ${SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT}
+      
+    - name: Fetch a URL checksum and capture the output as a variable:
+      uri: 
+        url: https://${SOME_WEBSITE}/${SOME_FILE}.sha1 
+	return_content: true
+      register: ${CHECKSUM_VARIABLE}
 
     - name: Copy some $FILE to a destination
+      copy:  
+        src: files/${FILE}
+	dest: ${ABS_PATH_TO_FILE}
+      notify: ${HANDLER_NAME}			# Kicks off a handler
+
+    - name: Copy some template $FILE to a destination
       template:
         src: templates/${FILE}			# Jinja template (*.j2) - files that reference/substitute:   {{ $VARNAME }}
         dest: ${ABS_PATH_TO_FILE}			
-      notify: $HANDLER_NAME			# Kicks off a handler
+      notify: ${HANDLER_NAME}			# Kicks off a handler
 
     # This is an explicit restart at the end.  However, the handler is also doing this. 
-    - name: Start service $SERVICE_NAME
+    - name: Start service ${SERVICE_NAME}
       service:
-        name: $SERVICE_NAME
+        name: ${SERVICE_NAME}
         state: started
 	enabled: yes
 
   handlers:
 
-    - name: $HANDLER_NAME			# Example: "Start nginx", or whatever the service name is.
+    - name: ${HANDLER_NAME}			# Example: "Start nginx", or whatever the service name is.
       service:
-        name: $SERVICE_NAME
+        name: ${SERVICE_NAME}
         state: restarted
         enabled: yes
 ```
@@ -1962,9 +1974,9 @@ password={{ mysql_new_root_pass.stdout }}
 
 ### Running a playbook:
 ```
-ansible-playbook -i $PATH_TO_HOSTS_FILE --private-key=${PATH_TO_PRIVATE_KEY} ${PLAYBOOK}
+ansible-playbook -i $PATH_TO_INVENTORY_FILE --private-key=${PATH_TO_PRIVATE_KEY} ${PLAYBOOK}
 ```
-EX:  `ansible-playbook -i ../hosts --private-key=~/.ssh/westfields-tower stop_apache.yml`
+EX:  `ansible-playbook -i ../inventory --private-key=~/.ssh/westfields-tower stop_apache.yml`
 
 Notes:
 - Facts are gathered by default (always the first task).
