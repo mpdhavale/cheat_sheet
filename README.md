@@ -1851,6 +1851,12 @@ ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=started"
 ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=stopped" 
 ```
 
+## One-liner to reboot everything in an inventory file:
+Via http://www.pidramble.com/wiki/setup/network
+```
+ansible all -i inventory -m shell -a "sleep 1s; shutdown -r now" -b -B 60 -P 0
+```
+
 ## Other modules:
 
 ### Check out a repo onto a node:
@@ -2000,6 +2006,8 @@ Other mysql commands:
   command: mysql -u root wordpress -e "SELECT ID FROM wordpress.wp_users LIMIT 1;"
   register: db_exist
   ignore_errors: true
+  changed_when: false			# This check will always show up as "OK" and never "Changed". 
+  					# Handlers will not be triggered!
   
   # Copy and restore database from backup if database doesn't exist:
 - name: Copy WordPress DB
