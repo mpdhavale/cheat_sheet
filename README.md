@@ -1894,7 +1894,15 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 	
     - name: Run a command and capture the output as a variable
       command: ${SOME_COMMAND}
+        creates: ${ABS_PATH_OF_A_FILE_YOU_DON'T_WANT_TO_CLOBBER}
       register: ${SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT}
+      
+    - name: Unzip a file
+      unarchive: 
+        src: files/${NAME_OF_ARCHIVE} 		# Local copy of the file in case it's not on the local machine
+	dest: ${ABS_PATH} 			# Destination for extraction
+	copy: no 				# Don't copy the file from local machine (file is already there)
+	creates: ${ABS_PATH_OF_A_FILE_YOU_DON'T_WANT_TO_CLOBBER}	# This file will get created if it doesn't already exist.
       
     - name: Fetch a URL checksum and capture the output as a variable
       uri: 
