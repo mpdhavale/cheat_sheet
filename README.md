@@ -1827,6 +1827,14 @@ alpha.example.com database_name=prod
 $ ansible-playbook –i production-inventory playbook.yml
 ```
 
+
+## Using ansible galaxy:
+```
+ansible-galaxy [-c] install ${USER}.${ROLENAME} -p ${PATH_TO_ROLE_DIRECTORY}
+```
+The `-c` is necessary for RHEL6 which can't properly do SSL validation.
+
+
 ## Applying STIG to RHEL7 (via RH module):
 Module site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
 Source site: https://github.com/RedHatOfficial/ansible-rhel7-disa-stig-role
