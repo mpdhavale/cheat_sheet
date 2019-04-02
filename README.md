@@ -1945,7 +1945,7 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 ---
 - hosts: ${HOSTGROUP}		# defaults to "all"
   name:  ${PLAYBOOK_NAME}
-  become: yes
+  become: true			# Needed so everything below can run as root
 
   vars:
     install_packages:		# Can be anything, just has to match what's in "with_items"
@@ -2001,15 +2001,14 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         dest: ${ABS_PATH_TO_FILE}			
       notify: ${HANDLER_NAME}			# Kicks off a handler
       
-      
-    -   name: Update/create a single line in a file
-        lineinfile:
-          create: true				# Creates file if it isn't there already
-          dest: /etc/ssh/sshd_config		# File to be modified
-          regexp: ^PermitUserEnvironment	# How to find the file to modify
-          line: PermitUserEnvironment no	# What to update the line to be 
-          validate: /usr/sbin/sshd -t -f %s	# Command to run to validate the file syntax
-
+    - name: Update/create a single line in a file
+      lineinfile:
+        create: true				# Creates file if it isn't there already
+        dest: /etc/ssh/sshd_config		# File to be modified
+        regexp: ^PermitUserEnvironment		# How to find the file to modify
+        line: PermitUserEnvironment no		# What to update the line to be 
+        validate: /usr/sbin/sshd -t -f %s	# Command to run to validate the file syntax
+      notify: ${HANDLER_NAME}			# Kicks off handler (restart SSH)
 
     # This is an explicit restart at the end.  However, the handler is also doing this. 
     - name: Start service ${SERVICE_NAME}
