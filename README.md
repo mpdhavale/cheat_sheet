@@ -2127,6 +2127,15 @@ NOTES:
    - templates	Files that have configurable aspects.
    - tasks	Where all of the work is actually taking place.  
    - tests	This is where you would put test playbooks that consume your role.
+   - meta	This is where you specify dependencies. Assumes those specified roles are installed. Exmample:
+```
+---
+dependencies:
+  - common
+  - php
+  - mysql
+  - nginx
+```
 
 More on variable precedence here:
 http://docs.ansible.com/ansible/latest/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
