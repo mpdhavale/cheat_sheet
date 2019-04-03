@@ -1827,37 +1827,10 @@ alpha.example.com database_name=prod
 $ ansible-playbook –i production-inventory playbook.yml
 ```
 
-
-## Using ansible galaxy:
-```
-ansible-galaxy [-c] install ${USER}.${ROLENAME} -p ${PATH_TO_ROLE_DIRECTORY}
-```
-The `-c` is necessary for RHEL6 which can't properly do SSL validation.
-
-
-## Applying STIG to RHEL7 (via RH module):
-Module site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
-Source site: https://github.com/RedHatOfficial/ansible-rhel7-disa-stig-role
-
-Install the role:
-```
-ansible-galaxy install redhatofficial.rhel7_disa_stig [-p /etc/ansible/roles]
-```
-Create a project with this git project / download this playbook:
-```
-https://github.com/ajacocks/rhel7_disa_stig.git
-```
-Create a template.  Run the playbook, but supply these Skip Tags:
-```
-CCE-27361-5
-CCE-27485-2
-CCE-27311-0
-CCE-80546-5
-```
-
 ## Check if hosts are up using the ping module:
-ansible $HOSTGROUP -m ping
-
+```
+ansible $HOSTGROUP [-i $INVENTORY] -m ping
+```
 
 ## Run a shell command on a host with the shell module:
 ```
@@ -1873,7 +1846,12 @@ NOTE: you can use the `shell` or `command` module. Shell is preferred:
 
 ## Get facts about hosts using the setup module:
 ```
-ansible $HOSTGROUP -m setup
+ansible $HOSTGROUP  [-i $INVENTORY] -m setup
+```
+You can use this to figure out which OS you're one to make playbooks OS-independent:
+```
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
 ```
 
 ## Using the Package module: 
@@ -1998,7 +1976,10 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
     - name: Copy some template $FILE to a destination
       template:
         src: templates/${FILE}			# Jinja template (*.j2) - files that reference/substitute:   {{ $VARNAME }}
-        dest: ${ABS_PATH_TO_FILE}			
+        dest: ${ABS_PATH_TO_FILE}	
+	owner: ${USER}
+        group: ${GROUP}
+        mode: 0###
       notify: ${HANDLER_NAME}			# Kicks off a handler
       
     - name: Update/create a single line in a file
@@ -2132,6 +2113,31 @@ NOTES:
     - apache-simple
 ```
 
+## Using ansible galaxy:
+```
+ansible-galaxy [-c] install ${USER}.${ROLENAME} -p ${PATH_TO_ROLE_DIRECTORY}
+```
+The `-c` is necessary for RHEL6 which can't properly do SSL validation.
+
+## Applying STIG to RHEL7 (via RH module):
+Module site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
+Source site: https://github.com/RedHatOfficial/ansible-rhel7-disa-stig-role
+
+Install the role:
+```
+ansible-galaxy install redhatofficial.rhel7_disa_stig [-p /etc/ansible/roles]
+```
+Create a project with this git project / download this playbook:
+```
+https://github.com/ajacocks/rhel7_disa_stig.git
+```
+Create a template.  Run the playbook, but supply these Skip Tags:
+```
+CCE-27361-5
+CCE-27485-2
+CCE-27311-0
+CCE-80546-5
+```
 
 -------------------
 # Fun
