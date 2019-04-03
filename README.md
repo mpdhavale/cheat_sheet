@@ -1972,6 +1972,8 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         src: files/${FILE}
 	dest: ${ABS_PATH_TO_FILE}
       notify: ${HANDLER_NAME}			# Kicks off a handler
+      # Note: if the copy statement is being called from a module, you don't have to specify "files/" 
+      #       as part of the src path (this directory is checked for you automatically). Both should work, though?
       
     - name: Check if a port is up yet
       wait_for:					# By default, checks every second (this is configurable).
@@ -1991,8 +1993,8 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         group: ${GROUP}
         mode: 0###
       notify: ${HANDLER_NAME}			# Kicks off a handler
-      # Note: if the template is being called from a module, you don't have to specify "templates/" 
-      #       as part of the src path (this directory is checked for you automatically. Both should work, though?
+      # Note: if the template statement is being called from a module, you don't have to specify "templates/" 
+      #       as part of the src path (this directory is checked for you automatically). Both should work, though?
       
     - name: Update/create a single line in a file
       lineinfile:
