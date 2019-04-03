@@ -2032,6 +2032,15 @@ ansible-playbook -i production webservers.yml --limit boston --list-hosts
         name: ${SERVICE_NAME}
         state: started
 	enabled: yes
+	
+    # Send a summary email, only once per playbook execution, from the host running ansible:
+    - name: Send summary mail
+      local_action:			# Run this task on the server running ansible, not the host being acted upon
+        module: mail
+        subject: "Summary Mail"
+        to: "{{ mail_recipient }}"
+        body: "{{ mail_body }}"
+      run_once: true			# Will execute this task only once per playbook execution
 
   handlers:
 
