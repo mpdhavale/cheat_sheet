@@ -2105,23 +2105,28 @@ cd roles
 ansible-galaxy init $ROLENAME
 ```
 NOTES:
-- This creates all the necessary subdirectories in roles/${ROLENAME}.  You will have to populate everything yourself.
-- This will NOT modify your site.yml.  Where stuff goes:
-   - hosts, name, become:		These sill go in site.yml at the top level project folder.
-   - handlers, tasks, templates:	These go in their respective folders. 
-   - vars:				These can go in site.yml, vars/main.yml, default/main.yml, or a lot of other places: 
-					http://docs.ansible.com/ansible/latest/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
-
-### Example site.yml to call a role:
+- This creates all the necessary subdirectories in roles/${ROLENAME} and their corresponding main.yml files.  You will have to populate everything yourself.
+- The module intentionally has nothing to call it.  You can call it with your own playbook, or by putting a site.yml (the conventional master playbook) in the same directory as the modules folder.  Your playbook will contain the following at a minimum:
 ```
 ---
-- hosts: web
-  name: This is a role-based playbook
-  become: yes
-    
+- hosts: all
+  become: true
+  name: This playbook is calling a role
   roles:
-    - apache-simple
+    - roles/${ROLENAME}
 ```
+- Under each directory of the module there's a main.yml. Here are the expected contents of that file for each directory:
+   - defaults	Default variables that aren't expected to change.
+   - vars	Variables that are configurable.
+   - handlers	All handlers (start/stop services). 
+   - files	Files that are static / won't change.
+   - templates	Files that have configurable aspects.
+   - tasks	Where all of the work is actually taking place.  
+   - tests	This is where you would put test playbooks that consume your role.
+
+More on variable precedence here:
+http://docs.ansible.com/ansible/latest/playbooks_variables.html#variable-precedence-where-should-i-put-a-variable
+
 
 ## Using ansible galaxy:
 ```
