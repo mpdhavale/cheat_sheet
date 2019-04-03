@@ -1972,7 +1972,13 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         src: files/${FILE}
 	dest: ${ABS_PATH_TO_FILE}
       notify: ${HANDLER_NAME}			# Kicks off a handler
-
+      
+    - name: Check if a port is up yet
+      wait_for:					# By default, checks every second (this is configurable).
+        host: ${HOSTNAME}
+        port: ${PORT}				# Default is if port is open, but you can also check if closed.
+        delay: 3				# Number of seconds to wait before starting to poll
+	
     - name: Copy some template $FILE to a destination
       template:
         src: templates/${FILE}			# Jinja template (*.j2) - files that reference/substitute:   {{ $VARNAME }}
