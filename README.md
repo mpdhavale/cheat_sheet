@@ -1969,6 +1969,11 @@ ansible-playbook -i production webservers.yml --limit boston --list-hosts
         creates: ${ABS_PATH_OF_A_FILE_YOU_DON'T_WANT_TO_CLOBBER}
       register: ${SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT}
       
+    - name: Run a command, only once, on a server of your choosing:
+      command: ${SOME_COMMAND}
+      run_once: true				# Run this command exactly once per playbook execution
+      delegate_to: ${HOSTNAME}			# Otherwise, the command will run once on the first host in the inventory.
+      
     - name: Unzip a file
       unarchive: 
         src: files/${NAME_OF_ARCHIVE} 		# Local copy of the file in case it's not on the local machine
