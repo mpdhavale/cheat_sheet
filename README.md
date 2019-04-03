@@ -1848,7 +1848,7 @@ NOTE: you can use the `shell` or `command` module. Shell is preferred:
 ```
 ansible $HOSTGROUP  [-i $INVENTORY] -m setup
 ```
-You can use this to figure out which OS you're one to make playbooks OS-independent:
+You can use facts as a condition (e.g., figure out which OS you're one to make playbooks OS-independent):
 ```
 - include_tasks: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
@@ -1979,6 +1979,10 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
         port: ${PORT}				# Default is if port is open, but you can also check if closed.
         delay: 3				# Number of seconds to wait before starting to poll
 	
+    # Include an additional task file per some condition:
+    - include_tasks: file.yml			# This file can be a list of tasks that just begins with "---"
+      when: ${VARIABLE} == '${SOMEVALUE}'       # Example variable: anything returned by setup module (no special formatting)
+      
     - name: Copy some template $FILE to a destination
       template:
         src: templates/${FILE}			# Jinja template (*.j2) - files that reference/substitute:   {{ $VARNAME }}
