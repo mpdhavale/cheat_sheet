@@ -1918,7 +1918,28 @@ ansible all -i inventory -a "free -m"
 ## Playbooks:
 Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 
-### Structure:
+### Running a playbook:
+```
+ansible-playbook -i $PATH_TO_INVENTORY_FILE --private-key=${PATH_TO_PRIVATE_KEY} ${PLAYBOOK}
+```
+EX:  `ansible-playbook -i ../inventory --private-key=~/.ssh/westfields-tower stop_apache.yml`
+
+Notes:
+- Facts are gathered by default (always the first task).
+- You don't have to specify the inventory file if it's in the same directory where you're running the ansible-playbook command, but you'd be dumb not to.
+- You don't have to specify a private key if you are running in the home directory of the same user. 
+EX:  cd ~; ansible-playbook ${PATH_TO_PLAYBOOK}
+
+You can also specify `--list-tasks` and `--list-hosts` to see what tasks/hosts your playbook will affect!
+```
+# confirm what task names would be run if I ran this command and said "just ntp tasks"
+ansible-playbook -i production webservers.yml --tags ntp --list-tasks
+
+# confirm what hostnames might be communicated with if I said "limit to boston"
+ansible-playbook -i production webservers.yml --limit boston --list-hosts
+```
+
+### Playbook structure / examples:
 ```
 ---
 - hosts: ${HOSTGROUP}		# defaults to "all"
@@ -2088,18 +2109,6 @@ Other mysql commands:
   mysql_db: target=/tmp/wp-database.sql state=import name=wordpress
   when: db_exist.rc > 0
 ```
-
-### Running a playbook:
-```
-ansible-playbook -i $PATH_TO_INVENTORY_FILE --private-key=${PATH_TO_PRIVATE_KEY} ${PLAYBOOK}
-```
-EX:  `ansible-playbook -i ../inventory --private-key=~/.ssh/westfields-tower stop_apache.yml`
-
-Notes:
-- Facts are gathered by default (always the first task).
-- You don't have to specify the inventory file if it's in the same directory where you're running the ansible-playbook command.
-- You don't have to specify a private key if you are running in the home directory of the same user. 
-EX:  cd ~; ansible-playbook ${PATH_TO_PLAYBOOK}
 
 ### Create directory structure for a role:
 ```
