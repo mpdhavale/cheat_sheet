@@ -1802,21 +1802,65 @@ minikube start --kubernetes-version="v1.13.0" --vm-driver="hyperv" --hyperv-virt
 ## Inventory files
 Inventory files can be separated into groups like so:
 ```
-[web]
-host1.example.com
-host2.example.com
+[staging-webservers]
+stg-web-1.example.com
+stg-web-2.example.com
 
-[database]
-db.example.com
+[production-webservers]
+prod-web-1.example.com
+prod-web-2.example.com
+
+[staging-dbservers]
+stg-db-1.example.com
+stg-db-2.example.com
+
+[production-dbservers]
+prod-db-1.example.com
+prod-db-2.example.com
+
+# All webservers
+[webservers:children]
+staging-webservers
+production-webservers
+
+# All databases
+[dbservers:children]
+staging-dbservers
+production-dbservers
+
+# All staging
+[staging:children]
+staging-webservers
+staging-dbservers
+
+# All production
+[production:children]
+production-webservers
+production-dbservers
 ```
-You can also pass parameters on the host lines like so.  
-The following is how you set up your inventory file so you can run ansible commands against a vagrant host:
+That said, it's probably better to break these into their own inventory files:
+- more clean from an organizational standpoint
+- you don't have to use `--limit` to limit the playbook to a particular group
+- use `--list-hosts` just to be sure!
+
+Having created these groups, you can then assign individual variables to each environment by creating appropriately named files under `groupvars`:
+```
+groupvars/webservers
+groupvars/dbservers
+groupvars/staging
+groupvars/production
+groupvars/staging-webservers
+groupvars/production-webservers
+groupvars/staging-dbservers
+groupvars/production-dbservers
+```
+
+You can pass per-host parameters inline.  For example, here is how you set up your inventory file so you can run ansible commands against a vagrant host:
 ```
 192.168.33.10 ansible_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/default/virtualbox/private_key
 ```
 
-You can also pass custom variables that can be used by the playbook.  
-For instance, two different inventories for the same host(s) that use environment-specific variables:
+You can also pass custom variables inline. For example, here are two different inventories for the same host(s) that use environment-specific variables:
 ```
 $ cat staging-inventory
 alpha.example.com database_name=staging_db
@@ -1922,7 +1966,7 @@ Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 ```
 ansible-playbook -i $PATH_TO_INVENTORY_FILE --private-key=${PATH_TO_PRIVATE_KEY} ${PLAYBOOK}
 ```
-EX:  `ansible-playbook -i ../inventory --private-key=~/.ssh/westfields-tower stop_apache.yml`
+EX:  `ansible-playbook -i inventory --private-key=~/.ssh/westfields-tower stop_apache.yml`
 
 Notes:
 - Facts are gathered by default (always the first task).
@@ -1930,13 +1974,18 @@ Notes:
 - You don't have to specify a private key if you are running in the home directory of the same user. 
 EX:  cd ~; ansible-playbook ${PATH_TO_PLAYBOOK}
 
+You can check playbook syntax with `--syntax-check `:
+```
+ansible-playbook -i inventory playbook.yml --syntax-check 
+```
+
 You can also specify `--list-tasks` and `--list-hosts` to see what tasks/hosts your playbook will affect!
 ```
 # confirm what task names would be run if I ran this command and said "just ntp tasks"
-ansible-playbook -i production webservers.yml --tags ntp --list-tasks
+ansible-playbook -i inventory playbook.yml --tags ntp --list-tasks
 
 # confirm what hostnames might be communicated with if I said "limit to boston"
-ansible-playbook -i production webservers.yml --limit boston --list-hosts
+ansible-playbook -i inventory playbook.yml --limit boston --list-hosts
 ```
 
 ### Playbook structure / examples:
