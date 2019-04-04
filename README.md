@@ -1959,6 +1959,15 @@ Get current memory usage of everything in an inventory file:
 ansible all -i inventory -a "free -m"
 ```
 
+## ansible vs ansible-playbook
+`ansible`:
+- Uses a hostgroup and an inventory file (that describes the hostgroup
+- Is used to run one single playbook task
+- Mostly useful for gathering/listing facts or forcing a single change
+`ansible-playbook`:
+- Uses only an inventory file; the hostgroup is in the playbook being called
+- Runs a whole series of tasks
+
 ## Playbooks:
 Best practices:  http://docs.ansible.com/ansible/playbooks_best_practices.html
 
@@ -2238,6 +2247,22 @@ CCE-27485-2
 CCE-27311-0
 CCE-80546-5
 ```
+
+## Using ansible-vault
+```
+ansible-vault encrypt ${NAME_OF_YML_FILE}
+```
+Use this to encrypt a variable file that contains secrets. You will be interactively prompted for a password.
+
+To edit that file:
+```
+ansible-vault edit ${NAME_OF_YML_FILE}
+```
+Other supported commands are `decrypt`, `rekey`, `view`, and `create`.
+
+When running a playbook that references a vault file, use `--ask-vault-pass`.  Alternatively, specify a password file with `--vault-password-file`.
+
+NOTE: if there are multiple encrypted files, they ALL must have the same decryption key (password).
 
 -------------------
 # Fun
