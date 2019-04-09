@@ -2250,7 +2250,10 @@ ansible-galaxy install -r requirements.yml
   scm: git
   version: 0.1.0
 ```
-
+List what roles you have installed:
+```
+ansible-galaxy list -p ${PATH_TO_ROLE_DIRECTORY}
+```
 
 ## Applying STIG to RHEL7 (via RH module):
 Module site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
