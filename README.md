@@ -2254,6 +2254,10 @@ List what roles you have installed:
 ```
 ansible-galaxy list -p ${PATH_TO_ROLE_DIRECTORY}
 ```
+Search for new roles (limiting to RHEL):
+```
+ansible-galaxy search ${SEARCH_TERM} --platforms=EL
+```
 
 ## Applying STIG to RHEL7 (via RH module):
 Module site: https://galaxy.ansible.com/redhatofficial/rhel7_disa_stig
