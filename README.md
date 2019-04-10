@@ -2344,6 +2344,59 @@ When running a playbook that references a vault file, use `--ask-vault-pass`.  A
 
 NOTE: if there are multiple encrypted files, they ALL must have the same decryption key (password).
 
+
+-------------------
+# Vagrant
+Requires the installation of both vagrant and virtualbox. 
+https://www.vagrantup.com/downloads.html
+http://download.virtualbox.org/virtualbox/rpm/rhel/7/x86_64/
+
+Vagrant commands:
+```
+vagrant init centos/7		# Creates Vagrantfile in directory
+vagrant up			# Downloads and brings up VM
+vagrant status			# Shows status of machine
+vagrant ssh			# Connects to machine
+vagrant halt			# Shut down machine
+vagrant destroy			# Removes machine
+```
+
+Add the following to Vagrantfile:
+```
+ # Set private network:
+ config.vm.network "private_network", ip: "192.168.33.10"
+
+ # Set provider-specific VM options:
+ config.vm.provider "virtualbox" do |vb|
+  vb.memory = "1024"
+ end
+
+ # Use ansible to provisioning (called during instantiation, or by `vagrant provision`):
+ config.vm.provision "ansible" do |ansible|
+  ansible.playbook = "provisioning/playbook.yml"
+ end
+```
+Requires creation of the following in the current directory:
+`provisioning/playbook.yml` 
+Run the `vagrant provision` command to use the playbook.
+
+Having done the above, you can make an alias to SSH into the VM without using `vagrant ssh`:
+```
+alias vs='ssh -i .vagrant/machines/default/virtualbox/private_key vagrant@192.168.33.10'
+```
+
+For manual ansible commands from your machine, you also need an `./inventory` file.
+Example:
+```
+192.168.33.10 ansible_user=vagrant ansible_ssh_private_key_file=.vagrant/machines/default/virtualbox/private_key
+```
+
+You can then reference the inventory as follows to run the provisioning playbook:
+```
+ansible-playbook -i ./inventory provisioning/playbook.yml
+```
+
+
 -------------------
 # Fun
 
