@@ -1878,7 +1878,7 @@ ansible $HOSTGROUP [-i $INVENTORY] -m ping
 
 ## Run a shell command on a host with the shell module:
 ```
-ansible $HOSTGROUP -m shell [-o] [-b] -a "$COMMAND"
+ansible $HOSTGROUP [-i $INVENTORY] -m shell [-o] [-b] -a "$COMMAND"
 ```
 - The -o option will keep output all on one line. 
 - The -b option will run the command as root.
@@ -1890,7 +1890,7 @@ NOTE: you can use the `shell` or `command` module. Shell is preferred:
 
 ## Get facts about hosts using the setup module:
 ```
-ansible $HOSTGROUP  [-i $INVENTORY] -m setup
+ansible $HOSTGROUP [-i $INVENTORY] -m setup
 ```
 You can use facts as a condition (e.g., figure out which OS you're one to make playbooks OS-independent):
 ```
@@ -1903,44 +1903,45 @@ http://docs.ansible.com/ansible/package_module.html
 
 ### Install a specific version (even if out of date):
 ```
-ansible $HOSTGROUP -m package -b -a "name=${PACKAGE}-${VERSION} state=present" 
+ansible $HOSTGROUP [-i $INVENTORY] -m package -b -a "name=${PACKAGE}-${VERSION} state=present" 
 ```
-EX:   `ansible web -m package -b -a "name=subversion-1.7.14-11.el7_4 state=present"` 
+EX:   `ansible web [-i $INVENTORY] -m package -b -a "name=subversion-1.7.14-11.el7_4 state=present"` 
 
 ### Install packages:
+Install a package on all hosts:
 ```
-ansible $HOSTGROUP -m package -b -a "name=${PACKAGE} state=latest"	
+ansible $HOSTGROUP [-i $INVENTORY] -m package -b -a "name=${PACKAGE} state=latest"	
 ```
 Note: "present" and "installed" are equivalent to each other, but will disregard version.
 
 ### Remove packages:
 ```
-ansible $HOSTGROUP -m package -b -a "name=${PACKAGE} state=absent"
+ansible $HOSTGROUP [-i $INVENTORY] -m package -b -a "name=${PACKAGE} state=absent"
 ```
 Note: "removed" and "absent" are equivalent.
 
 ### Command that is essentially a `yum update` equivalent:
 ```
-ansible $HOSTGROUP -m package -b -a "name=* state=latest"
+ansible $HOSTGROUP [-i $INVENTORY] -m package -b -a "name=* state=latest"
 ```
 
 ## Using the Service module to start/stop a service:
 ```
-ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=started" 
-ansible $HOSTGROUP -m service -b -a "name=${SERVICE} state=stopped" 
+ansible $HOSTGROUP [-i $INVENTORY] -m service -b -a "name=${SERVICE} state=started" 
+ansible $HOSTGROUP [-i $INVENTORY] -m service -b -a "name=${SERVICE} state=stopped" 
 ```
 
 ## Other modules:
 
 ### Check out a repo onto a node:
 ```
-ansible $HOSTGROUP -m git -a "repo=${REPO_URL} dest=${DESTINATION_FOLDER}"
+ansible $HOSTGROUP [-i $INVENTORY] -m git -a "repo=${REPO_URL} dest=${DESTINATION_FOLDER}"
 ```
-EX: `ansible web -m git -a "repo=https://github.com/jboss-developer/jboss-eap-quickstarts.git dest=/tmp/checkout"`
+EX: `ansible web [-i $INVENTORY] -m git -a "repo=https://github.com/jboss-developer/jboss-eap-quickstarts.git dest=/tmp/checkout"`
 
 ### Have the node test a connection to a website:
 ```
-ansible $HOSTGROUP -m uri -a "url=${URL} return_content=yes"
+ansible $HOSTGROUP [-i $INVENTORY] -m uri -a "url=${URL} return_content=yes"
 ```
 
 ## One-liners:
@@ -1948,15 +1949,15 @@ Via http://www.pidramble.com/wiki/setup/test-ansible
 
 Reboot all hosts in an inventory file:
 ```
-ansible all -i inventory -m shell -a "sleep 1s; shutdown -r now" -b -B 60 -P 0
+ansible all [-i $INVENTORY] -m shell -a "sleep 1s; shutdown -r now" -b -B 60 -P 0
 ```
 Get disk usage of everything in an inventory file:
 ```
-ansible all -i inventory -a "df -h"
+ansible all [-i $INVENTORY] -a "df -h"
 ```
 Get current memory usage of everything in an inventory file:
 ```
-ansible all -i inventory -a "free -m"
+ansible all [-i $INVENTORY] -a "free -m"
 ```
 
 ## ansible vs ansible-playbook
@@ -1997,11 +1998,24 @@ ansible-playbook -i inventory playbook.yml --tags ntp --list-tasks
 ansible-playbook -i inventory playbook.yml --limit boston --list-hosts
 ```
 
+Running a playbook on the local host:
+```
+ansible-playbook –i 'localhost,'  -c 'local' playbook.yml
+```
+
+Pulling a playbook from git and running it locally on the host:
+```
+ansible-pull -U git@example.com/ansible-site.git -i 'localhost,' –c 'local' playbook.yml
+```
+
+
 ### Playbook structure / examples:
 ```
 ---
 - hosts: ${HOSTGROUP}		# defaults to "all"
   name:  ${PLAYBOOK_NAME}
+  serial: ${VALUE}		# Integer: how many hosts to do at once. Defaults to all. 
+  max_fail_percent: 0		# If any host fails, abort processing.
   become: true			# Needed so everything below can run as root
 
   vars:
