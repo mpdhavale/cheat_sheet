@@ -1962,7 +1962,7 @@ ansible all [-i $INVENTORY] -a "free -m"
 
 ## ansible vs ansible-playbook
 `ansible`:
-- Uses a hostgroup and an inventory file (that describes the hostgroup
+- Uses a hostgroup and an inventory file (that describes the hostgroup)
 - Is used to run one single playbook task
 - Mostly useful for gathering/listing facts or forcing a single change
 `ansible-playbook`:
@@ -2006,6 +2006,11 @@ ansible-playbook –i 'localhost,'  -c 'local' playbook.yml
 Pulling a playbook from git and running it locally on the host:
 ```
 ansible-pull -U git@example.com/ansible-site.git -i 'localhost,' –c 'local' playbook.yml
+```
+
+Using ansible to create a cron does the above (reference only, don't actually do this):
+```
+ansible all -i inventory -m setup -a 'name="Ansible Pull" minute="*/30" job="ansible-pull -U git@example.com/ansible-site.git -i \\'localhost,\\' –c \\'local\\' playbook.yml"'
 ```
 
 
@@ -2196,7 +2201,37 @@ Other mysql commands:
   when: db_exist.rc > 0
 ```
 
-### Create directory structure for a role:
+### Blocks
+Blocks allow you to specify `become` and `when` statements for groups of tasks.  One use case is if you don't want to run everything as root (`become=false`).
+```
+---
+- hosts: all
+  tasks:
+    - block:
+        - apt: name=apache2 state=installed
+        - template: name=vhost.conf dest=/etc/apache2/sites-enabled/vhost.conf
+      become: true
+    - copy: name=s3.cfg dest=∼/.s3.cfg			# This task is run without elevated privileges.
+```
+
+Blocks also allow you to perform certain tasks if something in the block fails. Subsequent tasks in the block will not be executed.
+```
+---
+- hosts: all
+  tasks:
+    - block:
+        - debug: msg="This runs no matter what happens"
+        - command: /bin/false
+        - debug: msg="I will never run because the task above fails"
+      rescue:
+        - debug: msg="This will run because the block failed"
+      always:
+        - debug: msg="This runs no matter what happens"
+```
+
+
+## Roles
+Create directory structure for a role:
 ```
 cd $PROJECT
 mkdir roles
