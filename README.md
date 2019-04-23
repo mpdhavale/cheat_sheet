@@ -1803,6 +1803,13 @@ Create cluster:
 gcloud container clusters create myCluster
 ```
 
+Grant admin permissions to current user:
+```
+kubectl create clusterrolebinding cluster-admin-binding \
+--clusterrole=cluster-admin \
+--user=$(gcloud config get-value core/account)
+```
+
 Pull an app from an existing image:
 ```
 kubectl run myApp --image gcr.io/google-samples/hello-app:1.0
@@ -2428,6 +2435,17 @@ You can then reference the inventory as follows to run the provisioning playbook
 ```
 ansible-playbook -i ./inventory provisioning/playbook.yml
 ```
+
+-------------------
+# Cloud
+
+## Google
+
+Google storage buckets:
+https://cloud.google.com/storage/
+
+Google kubernetes engine:
+https://cloud.google.com/kubernetes-engine/
 
 
 -------------------
