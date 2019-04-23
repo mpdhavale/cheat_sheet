@@ -1795,6 +1795,39 @@ Start up minikube. In Powershell:
 minikube start --kubernetes-version="v1.13.0" --vm-driver="hyperv" --hyperv-virtual-switch="Minikube"
 ```
 
+## Kubernetes via Google Cloud
+https://cloud.google.com/kubernetes-engine/
+
+Create cluster:
+```
+gcloud container clusters create myCluster
+```
+
+Pull an app from an existing image:
+```
+kubectl run myApp --image gcr.io/google-samples/hello-app:1.0
+```
+
+Scale replicas:
+```
+kubectl scale deployment myApp --replicas 3
+```
+
+Expose ports for the app:
+```
+kubectl expose deployment myApp --port 80 --type=LoadBalancer
+```
+
+Get info on service:
+```
+kubectl get service myApp
+```
+
+Update app with a newer version of the image:
+```
+kubectl set image deployment myApp app=gcr.io/google-samples/hello-app:2.0
+```
+
 
 -------------------
 # Ansible
