@@ -629,6 +629,12 @@ Example:
 /bin/sed -i "/^data/ s/$/,${USER}/" file
 ```
 
+## Skip everything through the line with the first instance of SOMESTRING:
+```
+sed -n '/SOMESTRING/,$p' file
+```
+Useful for processing dig output to skip past "Question" section.
+
 
 -------------------
 # awk examples
