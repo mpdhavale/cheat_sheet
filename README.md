@@ -130,6 +130,11 @@ cat < /dev/tcp/${IP}/${PORT}
 curl -v telnet://${IP}:${PORT}
 ```
 
+## Get detailed domain info (exclude original query for easier grepping):
+```
+dig +noquestion $FQDN
+```
+
 ## Get a list of all the hosts in the domain (assuming the DNS server allows you):
 ```
 dig DOMAIN axfr [@SERVER]
@@ -633,7 +638,6 @@ Example:
 ```
 sed -n '/SOMESTRING/,$p' file
 ```
-Useful for processing dig output to skip past "Question" section.
 
 
 -------------------
