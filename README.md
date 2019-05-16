@@ -389,6 +389,7 @@ This would be good for things like Ansible where many discrete SSH commands are 
 ControlPersist dictates how long the tunnel should remain open if left idle.
 Host list could also be:  *
 
+
 ## Tunneling through a proxy using ProxyCommand:
 ```
 Host bastion
@@ -404,7 +405,10 @@ Host 192.168.*
 Whenever you SSH to anything in the 192.168.* range, ProxyCommand is run to attach to the bastion.
 The bastion in this example is using a multiplexed connection.
 
-NOTE: PuTTY cannot do this on its own (plink is required).  See setup here:
+Good resource for multiplexing:
+https://en.wikibooks.org/wiki/OpenSSH/Cookbook/Multiplexing
+
+NOTE: PuTTY cannot make use of multiplexing on its own (plink is required).  If that is desired, see setup here:
 https://stackoverflow.com/questions/28926612/putty-configuration-equivalent-to-openssh-proxycommand
 
 ## Ensure that an SSH connection stays up:
