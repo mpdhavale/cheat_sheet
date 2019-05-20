@@ -793,6 +793,11 @@ rpm -V [Package]
        T mTime differs
        P caPabilities differ
 
+## List what packages will be updated with yum update:
+```
+yum check-update
+```
+
 ## Get a local copy of epel:
 ```
 wget -r -np -R "index.html*" https://archive.fedoraproject.org/pub/epel/7Server/x86_64/
