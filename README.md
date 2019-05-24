@@ -264,7 +264,7 @@ diff -yW200 file1 file2 | less
 
 ##  Create (or append, if >>) a file in-line with a heredoc:
 ```
-/bin/cat <<-EOF > file.txt
+/bin/cat << EOF > file.txt
 #This is a commented line
 This is a real line
 EOF
