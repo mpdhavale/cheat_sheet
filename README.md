@@ -659,7 +659,12 @@ awk '$1 ~ /..5/ && $2 != "c"'
 awk '{ sum+=$1} END {print sum}'
 ```
 
-## Use awk to get rows with a numeric operation on a column:
+## Use awk to get rows where a column is over a specific value:
+```
+cut -f3 -d\: /etc/passwd | awk '$1>500'
+```
+
+## Another example:
 ```
 /bin/awk -F ':' '$3<500 {print $1}' /etc/passwd   # gets account name ($1) where UID ($3) is less than 500
 ```
