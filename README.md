@@ -1033,6 +1033,10 @@ psql -h localhost -U enterprisedb -d postgres
 ```
 \c DATABASENAME
 ```
+## Postgres: List (or describe) tables:
+```
+\d [table_name]
+```
 
 ## Postgres: Run a script from within psql:
 ```
