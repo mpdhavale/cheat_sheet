@@ -262,7 +262,8 @@ diff --side-by-side -W 200 file1 file2 | less
 diff -yW200 file1 file2 | less
 ```
 
-##  Create (or append, if >>) a file in-line with a heredoc:
+##  Create (or append, if ">> file.txt") a file in-line with a heredoc:
+NOTE: You must escape dollar signs and tick marks!
 ```
 /bin/cat << EOF > file.txt
 #This is a commented line
@@ -271,6 +272,7 @@ EOF
 ```
 
 ## Create a multi-line variable wiht a heredoc:
+NOTE: You must escape dollar signs and tick marks!
 ```
 read -r -d '' VAR << EOF
 This is line 1.
