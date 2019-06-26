@@ -918,6 +918,15 @@ done
 python -c "import crypt, getpass, pwd; print(crypt.crypt('PASSWORDGOESHERE', '\$6\$SALTGOESHERE\$'))"
 ```
 
+## Get user information:
+Gives UID and all group memberships:
+```
+id $USER
+```
+Gives what /etc/passwd entry would look like:
+```
+getent passwd $USER
+```
 
 -------------------
 # Downloading
