@@ -1464,6 +1464,12 @@ semodule_package -o SOMETHING.pp -m SOMETHING.mod
 semodule -i SOMETHING.pp 
 ```
 
+## Gotchas:
+
+- Logrotate can only normally only operate in /var directories.  If you want to logrotate files outside of that (such as mailboxes), you might as well just disable it:
+```
+semanage permissive -a logrotate_t
+```
 
 -------------------
 # Systemd
