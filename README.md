@@ -1546,6 +1546,11 @@ mount -t drvfs '\\server\share' /mnt/share
 tune2fs -m 0 /path/to/lvol
 ```
 
+## Create a logical volume using all available space:
+```
+lvcreate -n $LV_NAME -l 100%FREE $VG_NAME
+```
+
 ## Creating a new logical volume on an encrypted system:
 ```
 # lvcreate -L 5G -n lv_data vg_root
