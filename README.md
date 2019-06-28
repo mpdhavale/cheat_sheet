@@ -1413,6 +1413,11 @@ yum -y install nfs-utils
 	-A OUTPUT -p tcp -m tcp --dport 2049 -j ACCEPT
 ```
 
+## List shares on a server:
+```
+showmount -e $HOST
+```
+
 
 -------------------
 # Python
