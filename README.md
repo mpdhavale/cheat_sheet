@@ -2139,6 +2139,8 @@ ansible all -i inventory -m setup -a 'name="Ansible Pull" minute="*/30" job="ans
       command: ${SOME_COMMAND}
         creates: ${ABS_PATH_OF_A_FILE_YOU_DON'T_WANT_TO_CLOBBER}
       register: ${SOME_VARIABLE_TO_HOLD_COMMAND_OUTPUT}
+    - debug: msg="{{ REGISTER_NAME.stdout }}"	# If you want to see the command's stdout.
+    - debug: msg="{{ REGISTER_NAME.stderr }}"   # If you want to see the command's stderr.  
       
     - name: Run a command, only once, on a server of your choosing:
       command: ${SOME_COMMAND}
