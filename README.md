@@ -777,6 +777,12 @@ yum install yum-plugin-downloadonly # allows yum to do this:
 yum [re]install --downloadonly --downloaddir=. [package]
 ```
 
+## Listing the files that a RPM installs 
+NOTE: this only displays the files contained in the RPM.  It's possible that the RPM dynamically creates files in its post-install step.  
+```
+rpm -qlp ${PACKAGE}.rpm
+```
+
 ## Verify what package files have been changed:
 ```
 yum -c /etc/yum.local.conf whatprovides [file]
