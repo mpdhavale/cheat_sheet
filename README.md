@@ -314,6 +314,20 @@ ssh-copy-id hostname
 echo "LogLevel QUIET" >> ~/.ssh/config
 ```
 
+## Disable hostkey checking
+Add the following to:  ~/.ssh/config
+1) Automatically adds host key if it isn't there already
+2) Will continue to warn if key exists
+```
+StrictHostKeyChecking no
+```
+
+## Resolve known_hosts conflicts
+```
+ssh-keygen -R $HOSTNAME
+```
+
+
 ## Getting graphical stuff to work:
 ```
 yum install xorg-x11-apps xorg-x11-xauth xorg-x11-fonts-*
