@@ -61,6 +61,11 @@ set belloff=all
 :set paste
 ```
 
+## Remove DOS endline characters (^M):
+```
+:set ff=unix
+```
+
 
 -------------------
 # LDAP
