@@ -55,14 +55,14 @@ systemctl restart systemd-timedated.services
 top -M -a -n1 -b
 ```
 ... where:
-`-M`  shows memory sizes in human-readable format
-`-a`  sorts the list by memory usage
-`-n1` shows one iteration
-`-b`  batch mode, used with `-n`
+- `-M`  shows memory sizes in human-readable format
+- `-a`  sorts the list by memory usage
+- `-n1` shows one iteration
+- `-b`  batch mode, used with `-n`
 
 Notes:
-The above shows memory columns VIRT and RES
-- VIRT is total virtual memory
+The above shows memory columns VIRT and RES:
+- VIRT is total virtual memory.
 - RES is actual physical memory.
 The calculation of "memory used" in top/free is according to RES.
 
