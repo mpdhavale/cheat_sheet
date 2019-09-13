@@ -684,6 +684,18 @@ Example:
 sed -n '/SOMESTRING/,//p' file
 ```
 
+## Add a line after a match:
+```
+sed -i '/SOMESTRING/a This is what gets added' file
+```
+Note that you don't need quotes for the added line. Not sure if escaping something gives you the literal \.
+
+### Comment out lines that contain a certain string:
+```
+sed -i '/SOMESTRING/ s/^/\#/g' file
+```
+
+
 -------------------
 # awk examples
 
