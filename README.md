@@ -746,6 +746,11 @@ find $PATH -type f -printf "%f\n"
 find . \( -type f  -o -type d \) \( -perm -020 -o -perm -002 \) -exec ls -la {} \;
 ```
 
+## Find everything modified between two dates
+```
+find . -newermt "2019-09-30 00:00:00" ! -newermt "2019-10-01 00:00:00"
+```
+
 
 -------------------
 # Flow control:
