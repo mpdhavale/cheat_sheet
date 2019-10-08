@@ -1639,7 +1639,16 @@ lvcreate -n $LV_NAME -l 100%FREE $VG_NAME
 
 ## Extend file system
 ```
+# Specific number of extents:
 lvextend -l [TOTAL LE DESIRED] /path/to/lv
+
+# All free extents:
+lvextend -l 100%FREE /path/to/lv
+
+# RHEL6:
+resize2fs /path/to/lv
+
+# RHEL7:
 xfs_growfs /mountpoint
 ```
 
