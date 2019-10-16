@@ -1841,6 +1841,14 @@ sudo -u postgres psql
 \l
 ```
 
+## Let ops run a command as postgres:
+```
+# Add to /etc/sudoers.d/ops:
+%unixops	ALL=(postgres)	/path/to/script
+
+# Invoke with:
+sudo -u postgres /path/to/script
+```
 
 -------------------
 # User account management
