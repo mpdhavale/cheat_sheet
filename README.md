@@ -144,6 +144,20 @@ Using the ifconfig command, the new bridge interface should now be visible.
 ip route add ${SUBNET} via ${GATEWAY} dev ${DEVICE}
 ```
 
+## Creating a persistent static route:
+IPv4: Create `/etc/sysconfig/network-scripts/route-eth#`:
+```
+default via ${IP} [advmss $DESIRED_MSS_MINUS_40]
+```
+IPv6: Create `/etc/sysconfig/network-scripts/route6-eth#`:
+```
+default via ${IP} [advmss $DESIRED_MSS]
+```
+
+## Show route info:
+IPv4:  `netstat -rn`
+IPv6:  `ip -6 route show`
+
 ## Scan all ports on a host (to see if an IP address is in use):
 ```
 nmap -Pn [IP_ADDRESS]
@@ -2163,6 +2177,24 @@ ansible-playbook -i inventory playbook.yml --limit boston --list-hosts
 Running a playbook on the local host:
 ```
 ansible-playbook –i 'localhost,'  -c 'local' playbook.yml
+```
+
+ALTERNATIVELY:  Running a downloaded playbook/role on the local host:
+1) Clone the playbook/role with git. 
+2) Create `local.yml` in the playbook/role directory with the following contents:
+```
+---
+- hosts: localhost
+  connection: local
+  become: yes
+  vars:
+      is_container: false
+  roles:
+      - role: "{{ playbook_dir }}"
+```
+3) Run the following:
+```
+ansible-playbook local.yml
 ```
 
 Pulling a playbook from git and running it locally on the host:
