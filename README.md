@@ -1871,9 +1871,9 @@ Install pre-reqs:
 yum install openscap-utils scap-security-guide
 ```
 
-View available profiles:
+View available scan profiles:
 ```
-oscap info /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R4_STIG_SCAP_1-2_Benchmark.xml
+oscap info /usr/share/xml/scap/ssg/content/ssg-rhel7-xccdf.xml
 ```
 
 Scan using DISA content:
