@@ -1871,25 +1871,14 @@ Install pre-reqs:
 yum install openscap-utils scap-security-guide
 ```
 
-Get the latest benchmark.  This URL will change:
-```
-wget https://iasecontent.disa.mil/stigs/zip/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.zip
-```
-
-Unzip, and put the XML file in the normal SCAP content location:
-```
-unzip U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.zip
-mv U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml /usr/share/xml/scap/ssg/content/
-```
-
 View available profiles:
 ```
-oscap info /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml
+oscap info /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R4_STIG_SCAP_1-2_Benchmark.xml
 ```
 
 Scan using DISA content:
 ```
-oscap xccdf eval --profile xccdf_mil.disa.stig_profile_MAC-1_Classified --results DoD_STIG_scan-pre-remediation.xml --report DoD_STIG_scan-pre-remediation.html /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml
+oscap xccdf eval [--fetch-remote-resources] --profile stig-rhel7-disa --results pre_scan.xml --report --pre_scan.html /usr/share/xml/scap/ssg/content/ssg-rhel7-xccdf.xml
 ```
 
 Perform remediation in one of two ways:
@@ -1904,7 +1893,7 @@ oscap xccdf eval --remediate --profile stig-rhel7-disa --results scan-sccdf-resu
 
 Re-scan with DISA content:
 ```
-oscap xccdf eval --profile xccdf_mil.disa.stig_profile_MAC-1_Classified --results DoD_STIG_scan-post-remediation.xml --report DoD_STIG_scan-post-remediation.html /usr/share/xml/scap/ssg/content/U_Red_Hat_Enterprise_Linux_7_V2R2_STIG_SCAP_1-2_Benchmark.xml
+oscap xccdf eval [--fetch-remote-resources] --profile stig-rhel7-disa --results post_scan.xml --report --post_scan.html /usr/share/xml/scap/ssg/content/ssg-rhel7-xccdf.xml
 ```
 
 
