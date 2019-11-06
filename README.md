@@ -651,6 +651,20 @@ mkdir path/{subdir1,subdir2,subdir3}
 ls -1 $PATH | xargs -n1 basename
 ```
 
+## Robocopy example:
+```
+robocopy "\\x7022499\VMs\rhel7-hardened-safe-server-10282019" C:\Users\AC43487\Documents /TBD /V /S /E /DCOPY:DA /COPY:DAT /Z /MT:16 /R:5 /W:5
+```
+/TBD	System will wait for share names to be defined
+/V	Verbose output
+/S /E	Traverse subdirectories and include empty directories
+/DCOPY	Directory permissions to copy. DA: data, attributes
+/COPY	File permissins to copy. DAT: data, attributes, timestamps
+/Z	Copy files in restartable mode.
+/MT	Number of threads.  Defaults to 8.
+/R	Number of times to retry a file.
+/W	Number of seconds to wait between retries. 
+
 
 -------------------
 # sed examples
