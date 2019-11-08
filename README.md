@@ -85,7 +85,14 @@ set belloff=all
 ```
 :set ff=unix
 ```
-
+Sometimes neither this nor dos2unix work.  Try this instead:
+```
+:%s/[CTRL+v][CTRL+m]//g
+```
+... where the stuff in brackets is stuff that you do, not what you type.  It will look like this when you're done: 
+```
+:%s/^M//g
+```
 
 -------------------
 # LDAP
