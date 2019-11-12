@@ -944,6 +944,15 @@ yum-complete-transaction --cleanup-only
 	fi
 ```
 
+# View output of previous yum commands:
+```
+yum history
+```
+This generates a numbered list of the sessions that yum knows about. Pick which number you want, then:
+```
+yum history info ${NUM}
+```
+
 
 -------------------
 # Processes/limits/monitoring
