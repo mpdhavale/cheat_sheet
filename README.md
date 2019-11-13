@@ -771,9 +771,10 @@ awk -F, '!length($3)' filename.txt
 ```
 awk -F: '$1 !~ /^root$/ && $2 !~ /^[!*]/ && $4 < 1 {print $1}' /etc/shadow
 ```
-`$1 !~ /^root$/`     - 1st column (delimited by `:`) is not "root"
-`$2 !~ /^[!*]/`      - 2nd column doesn't begin with a `!` or a `*`
-`$4 !~ < 1`          - 4th column is less than 1
+  - `$1 !~ /^root$/`     - 1st column (delimited by `:`) is not "root"
+  - `$2 !~ /^[!*]/`      - 2nd column doesn't begin with a `!` or a `*`
+  - `$4 !~ < 1`          - 4th column is less than 1
+  
 This gives you all users whose "time between password changes" is set to zero days. 
 
 
