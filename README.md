@@ -767,6 +767,15 @@ ls -1 $PATH | awk 'BEGIN { FS = "/" } ; { print $NF }'
 awk -F, '!length($3)' filename.txt
 ```
 
+### Making sure a row meets certain criteria:
+```
+awk -F: '$1 !~ /^root$/ && $2 !~ /^[!*]/ && $4 < 1 {print $1}' /etc/shadow
+```
+`$1 !~ /^root$/`     - 1st column (delimited by `:`) is not "root"
+`$2 !~ /^[!*]/`      - 2nd column doesn't begin with a `!` or a `*`
+`$4 !~ < 1`          - 4th column is less than 1
+This gives you all users whose "time between password changes" is set to zero days. 
+
 
 -------------------
 # find
