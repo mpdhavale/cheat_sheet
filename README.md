@@ -843,6 +843,15 @@ do
 done < cat file.txt
 ```
 
+## Producing a sequence of numbers:
+```
+for i in {1..99}; do
+```
+This is a lot easier than using `seq`.  It even allows leading zeros:
+```
+for i in {001..999}; do
+```
+
 
 -------------------
 # grep
