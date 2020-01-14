@@ -835,12 +835,21 @@ $@ should usually be quoted like so "$@"
 -eq     numerical equality
 -ne     numerical inequality
 
+## Numerical comparison:
+Use double parentheses instead of double brackets:
+```
+if (( $VAR1 >= $VAR2 ))
+then
+   # stuff
+fi
+```
+
 ## While loop on multiple lines:
 ```
 while read LINE
 do
-   # stuff
-done < cat file.txt
+   echo "LINE"
+done < <(cat file.txt)
 ```
 
 ## Producing a sequence of numbers:
