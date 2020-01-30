@@ -1709,6 +1709,14 @@ lvcreate -n $LV_NAME -l 100%FREE $VG_NAME
 # mount /data
 ```
 
+## Increase logical volume size and resize file system simultaneously
+```
+lvextend -r -L ${GB_SIZE}G /dev/mapper/${LV_NAME}
+
+#EX:
+lvextend -r -L 60G /dev/mapper/vg_bilsvruv-lv_var
+```
+
 ## Extend file system
 ```
 # Specific number of extents:
