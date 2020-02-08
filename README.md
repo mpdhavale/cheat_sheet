@@ -892,13 +892,19 @@ grep sometext[[:space:]]*someothertext file.txt
 
 ## Downloading packages but not installing them:
 ```
-yum install yum-plugin-downloadonly # allows yum to do this:
+yum install yum-plugin-downloadonly   # allows yum to do this:
 yum [re]install --downloadonly --downloaddir=. [package]
 ```
 
-## Extracting the contents of an RPM:
+## Extracting the contents of an RPM (does not include spec file):
 ```
 rpm2cpio ${RPM_FILE} | cpio -idmv 
+```
+
+## Generating a spec file from an existing RPM:
+```
+yum install rpmrebuild   # from EPEL
+rpmrebuild --package --notest-install -e ${RPM_FILE}
 ```
 
 ## Listing the files that a RPM installs 
