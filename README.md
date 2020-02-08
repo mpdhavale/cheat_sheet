@@ -896,6 +896,11 @@ yum install yum-plugin-downloadonly # allows yum to do this:
 yum [re]install --downloadonly --downloaddir=. [package]
 ```
 
+## Extracting the contents of an RPM:
+```
+rpm2cpio ${RPM_FILE} | cpio -idmv 
+```
+
 ## Listing the files that a RPM installs 
 NOTE: this only displays the files contained in the RPM.  It's possible that the RPM dynamically creates files in its post-install step.  
 ```
