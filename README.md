@@ -1696,6 +1696,23 @@ tune2fs -m 0 /path/to/lvol
 lvcreate -n $LV_NAME -l 100%FREE $VG_NAME
 ```
 
+## Creating a new volume group and logical volume (RH7):
+```
+# Create PV
+pvcreate /dev/sdb
+# Create VG
+vgcreate vg_data /dev/sdb
+# Create LV
+lvcreate -n lv_data -l 100%FREE vg_data
+# Create FS
+mkfs.xfs /dev/vg_data/lv_data
+# Set up mount:
+mkdir -p /data
+mount /dev/vg_data/lv_data /data
+echo '/dev/mapper/vg_data-lv_data /data xfs defaults 0 0' >> /etc/fstab
+mount -a
+```
+
 ## Creating a new logical volume on an encrypted system:
 ```
 # lvcreate -L 5G -n lv_data vg_root
