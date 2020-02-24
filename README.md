@@ -744,7 +744,12 @@ awk '$1 ~ /..5/ && $2 != "c"'
 
 ## Sum a column with awk:
 ```
-awk '{ sum+=$1} END {print sum}'
+awk '{sum+=$1} END {print sum}'
+```
+
+## Average a column with awk:
+```
+awk '{sum+=$1} END {print sum/NR}'
 ```
 
 ## Use awk to get rows where a column is over a specific value:
