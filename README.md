@@ -763,9 +763,11 @@ cut -f3 -d\: /etc/passwd | awk '$1>500'
 ```
 
 ## Getting just the filename using awk field separator:
+NOTE: FS can be more than one character!!!
 ```
 ls -1 $PATH | awk 'BEGIN { FS = "/" } ; { print $NF }'
 ```
+
 
 ## Seeing if a particular column is null:
 ```
