@@ -329,6 +329,11 @@ EOF
 echo "$VAR"
 ```
 
+## Use tail to show you everything after a certain line (inclusive):
+```
+tail -n +${NUM}
+```
+
 
 -------------------
 # SSH / X11 / vnc
@@ -893,6 +898,11 @@ grep -v '^[[:space:]]*\(\#\|$\)' file.txt
 grep sometext[[:space:]]*someothertext file.txt
 ```
 
+## Recursively search through files with grep
+Essentially, a replacement for `find . -exec grep string {} \;`
+```
+grep -r sometext /absolutepath
+```
 
 -------------------
 # yum
