@@ -301,7 +301,7 @@ virt-manager
 
 
 -------------------
-# Text file manipulation
+# Text manipulation
 
 ##  Use diff to view files side by side, with changes noted:
 ```
@@ -345,6 +345,16 @@ awk '{print $1}' file.txt | paste -d\, -s
 - In order for uniq to work, stuff must be sorted first.
 - `uniq -u` will give you ONLY the unique lines (ones that are NOT duplicate).  
 
+## tr
+Compress all consecutive horizontal spaces into a single space.
+Without the -s, consecutive blanks will not be consolidated.
+```
+cat file.txt | tr -s [:blank:] ' ' 
+```
+Delete characters with tr. Example: delete all hash marks:
+```
+cat file.txt | tr -d \#
+```
 
 -------------------
 # SSH / X11 / vnc
