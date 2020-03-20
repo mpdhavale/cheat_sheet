@@ -71,6 +71,7 @@ The calculation of "memory used" in top/free is according to RES.
 # Vim:
 
 ## Minimal ~/.vimrc config:
+Turns off colors and beeps. 
 ```
 syntax off
 set belloff=all
@@ -331,8 +332,18 @@ echo "$VAR"
 
 ## Use tail to show you everything after a certain line (inclusive):
 ```
-tail -n +${NUM}
+tail -n +${NUM} file.txt
 ```
+
+## Take a colummn and turn it into a delimited string
+This can be done with awk output or a multiline variable:
+```
+awk '{print $1}' file.txt | paste -d\, -s
+```
+
+## uniq
+- In order for uniq to work, stuff must be sorted first.
+- `uniq -u` will give you ONLY the unique lines (ones that are NOT duplicate).  
 
 
 -------------------
