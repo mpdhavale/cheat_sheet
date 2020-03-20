@@ -726,6 +726,17 @@ sed -i 's/\r//g' name_of_file_to_strip
 cat file.txt | sed -n '25,28p;29q'
 ```
 
+## Have sed act on a certain line or lines:
+The following will act ONLY on line 40:
+```
+cat file.txt | sed -e '40s/bad/good/'
+```
+You can also do a comma-delimited range.  Regex is also valid! 
+The following starts at line 40 and ends at the end of the file:
+```
+cat file.txt | sed -e '40,$s/bad/good/g'
+```
+
 ##  Replace multiple things for lines that match a particular pattern
 Example:
   - For lines that begin with PASS
