@@ -356,6 +356,11 @@ Delete characters with tr. Example: delete all hash marks:
 cat file.txt | tr -d \#
 ```
 
+## Format text into a certain width without breaking words across lines:
+```
+cat file.txt | fold -s -w ${WIDTH}
+```
+
 -------------------
 # SSH / X11 / vnc
 
