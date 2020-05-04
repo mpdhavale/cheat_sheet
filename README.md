@@ -847,6 +847,11 @@ find . -newermt "2019-09-30 00:00:00" ! -newermt "2019-10-01 00:00:00"
 
 
 -------------------
+# Bash cheat sheet:
+http://mywiki.wooledge.org/BashFAQ
+
+
+-------------------
 # Flow control:
 
 ##  Using a find command to properly process files/directories that have spaces:
@@ -913,6 +918,11 @@ for i in {001..999}; do
 
 -------------------
 # grep
+
+## When using grep twice sequentially after a streaming command like tcpdump/tail:
+```
+tail -F logfile.log | grep --line-buffered $SOMETEXT | grep $SOMEOTHERTEXT
+```
 
 ## Exclude lines that begin with # or $ (with zero to any whitespace prior to those characters):
 ```
