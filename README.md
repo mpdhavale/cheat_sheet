@@ -1065,6 +1065,26 @@ yum history info ${NUM}
 -------------------
 # Processes/limits/monitoring
 
+##  Count number of CPUs:
+```
+lscpu
+```
+If system is hyperthreaded, number of cores is doubled. 
+
+##  Get average CPU utilzation:
+```
+sar
+```
+
+##  Get total CPU utilzation (sum of utilization of each core):
+```
+for i in {0..?}
+do
+   sar -P ${i} | grep ^Average
+done | awk '{s+=$3} END {print $3}'
+```
+... where "?" is the total number of cores (n-1)
+
 ##  List number of processes for a user:
 ```
 ps -U [user] | wc -l
