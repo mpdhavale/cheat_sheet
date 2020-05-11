@@ -46,6 +46,11 @@ timedatectl set-ntp yes
 systemctl restart systemd-timedated.services  
 ```
 
+## Convert epoch time to normal:
+```
+date -d@${EPOCH}
+```
+
 
 -------------------
 # Troubleshooting:
