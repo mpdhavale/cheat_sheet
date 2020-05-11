@@ -1081,7 +1081,7 @@ sar
 for i in {0..?}
 do
    sar -P ${i} | grep ^Average
-done | awk '{s+=$3} END {print $3}'
+done | awk '{s+=$3} END {print s}'
 ```
 ... where "?" is the total number of cores (n-1)
 
