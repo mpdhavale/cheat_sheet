@@ -959,6 +959,11 @@ grep -r sometext /absolutepath
 -------------------
 # yum
 
+## Exclude a repo:
+```
+yum --disablerepo=${REPONAME} update
+```
+
 ## Downloading packages but not installing them:
 ```
 yum install yum-plugin-downloadonly   # allows yum to do this:
