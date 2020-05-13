@@ -1218,6 +1218,12 @@ openssl rand -base64 ${LENGTH}
 openssl rand -hex ${LENGTH_DIVIDED_BY_TWO}
 ```
 
+## Base64 encoding/decoding in Windows:
+```
+certutil -encode putty.txt putty.tmp && findstr /v /c:- putty.tmp > putty.txt
+certutil -decode putty.txt putty.exe
+```
+
 
 -------------------
 # Kerberos / Samba
