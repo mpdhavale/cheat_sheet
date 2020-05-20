@@ -366,6 +366,13 @@ cat file.txt | tr -d \#
 cat file.txt | fold -s -w ${WIDTH}
 ```
 
+## Take multiline output and turn it into a delimited single line:
+```
+cat file.txt | paste -sd? -
+```
+... where `?` is the delimiter you want to separate the values with.
+
+
 -------------------
 # SSH / X11 / vnc
 
