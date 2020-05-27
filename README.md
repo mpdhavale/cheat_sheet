@@ -1455,6 +1455,16 @@ diff <(hostname) <(openssl x509 -noout -text -in /etc/pki/tls/certs/localhost.cr
 openssl s_client -connect hostname:443 -cert certs/localhost.crt -key private/localhost.key  [-CAfile certs/CA.crt]
 ```
 
+## Check what ciphers are supported:
+```
+openssl ciphers
+```
+
+## Map openssl ciphers to Java ciphers:
+```
+https://testssl.sh/openssl-iana.mapping.html
+```
+
 ## Have openssl listen for a server connection, and verify client:
 ```
 openssl s_server -accept 443 -verify 2 -cert certs/localhost.crt -key private/localhost.key -CAfile certs/CA.crt
