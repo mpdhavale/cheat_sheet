@@ -1455,14 +1455,20 @@ diff <(hostname) <(openssl x509 -noout -text -in /etc/pki/tls/certs/localhost.cr
 openssl s_client -connect hostname:443 -cert certs/localhost.crt -key private/localhost.key  [-CAfile certs/CA.crt]
 ```
 
-## Check what ciphers are supported:
+## Check what ciphers are supported by OpenSSL
 ```
-openssl ciphers
+openssl ciphers -V ALL | grep -v SSLv
 ```
 
 ## Map openssl ciphers to Java ciphers:
 ```
 https://testssl.sh/openssl-iana.mapping.html
+```
+
+## Suggestions for strong ciphers:
+The A list of:
+```
+https://cheatsheetseries.owasp.org/cheatsheets/TLS_Cipher_String_Cheat_Sheet.html
 ```
 
 ## Have openssl listen for a server connection, and verify client:
