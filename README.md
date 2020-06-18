@@ -1320,6 +1320,11 @@ SELECT rolname FROM pg_roles;
 -------------------
 # Certificates
 
+## Create a hash symlink for a CA:
+```
+ln -s $CA_FILE $(openssl x509 -hash -noout -in $CA_FILE).0
+```
+
 ## Get the SHA1 fingerprint of a cert:
 ```
 openssl x509 -noout -fingerprint -sha1 -in $CERTNAME
@@ -1390,7 +1395,7 @@ keytool -genkey -keyalg RSA -alias selfsigned -dname "C=US, ST=VA, O=ORG, CN=$(h
 openssl s_client -connect 10.67.131.246:443 -verify 9 -showcerts -CAfile /etc/pki/tls/certs/DTE_CA.crt -cert /etc/pki/tls/certs/localhost.crt -key /etc/pki/tls/private/localhost.key 1>/dev/null
 ```
 
-##Export cert from a JKS file:
+## Export cert from a JKS file:
 ```
 keytool -exportcert -alias ALIAS -file OUTPUT.crt -rfc -keystore KEYSTORE.jks
 keytool -exportcert -alias racdbkey -file cartesian.crt -rfc -keystore owfRACDBtrust.jks
