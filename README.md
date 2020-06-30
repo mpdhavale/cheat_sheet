@@ -2829,6 +2829,14 @@ https://cloud.google.com/kubernetes-engine/
 -------------------
 # Fun
 
+## Create a file that has zero length, but actually takes up space:
+```
+fallocate -n -l $SIZE $FILENAME
+```
+A file created in this way consumes space per df, but is entirely undetectable.  
+God knows why you can do this.
+
+
 ## Discordian date (RH6 only):
 ```
 ddate 
