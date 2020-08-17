@@ -372,6 +372,11 @@ cat file.txt | paste -sd? -
 ```
 ... where `?` is the delimiter you want to separate the values with.
 
+## Take multiline output and align columns to widest element:
+```
+column -t file.txt
+```
+
 
 -------------------
 # SSH / X11 / vnc
