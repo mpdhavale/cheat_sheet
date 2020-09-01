@@ -118,6 +118,11 @@ Notes:
 -------------------
 # Networking
 
+## Displaying connections:
+```
+netstat -pantuw
+```
+
 ## Setting up bridged interfaces:
 
 If the interface to be bridged is currently running it should be taken down before proceeding:
