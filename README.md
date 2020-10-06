@@ -289,6 +289,17 @@ curl checkip.amazonaws.com
 curl --socks5 localhost:9050 checkip.amazonaws.com
 ```
 
+## Remove an eth:
+This has to be done after each boot (it's not persistent).  Put these in /etc/rc.local.
+The below example removes eth7:
+```
+driver="$(ethtool -i eth7 | grep '^driver:' | awk '{ print $2 }')"
+bus="$(ethtool -i eth7 | grep '^bus-info:' | awk '{ print $2 }')"
+echo "$bus" > /sys/module/${driver}/drivers/pci:${driver}/unbind
+## OR ##
+echo 1 > $(find /sys/devices -name '*eth7' | sed -e 's,/net/eth7,/remove,')
+```
+
 
 -------------------
 # KVM
