@@ -2909,3 +2909,7 @@ Figure out what pts number they're using with `who`, then:
 ```
 echo "garbage" >> /dev/pts/$X
 ```
+You can even send the bell sound!
+```
+echo -e '\a' >> /dev/pts/$X
+```
