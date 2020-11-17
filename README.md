@@ -2913,3 +2913,34 @@ You can even send the bell sound!
 ```
 echo -e '\a' >> /dev/pts/$X
 ```
+
+## Cycle text through ANSI colors:
+```
+while true
+do
+   for i in {30..37} {90..97}
+   do
+      echo -n -e "\e[${i}m COLORS"
+   done
+done
+```
+List of colors:
+```
+\e[39m  Default
+\e[30m  Black
+\e[31m  Red
+\e[32m  Green
+\e[33m  Yellow
+\e[34m  Blue
+\e[35m  Magenta
+\e[36m  Cyan
+\e[37m  Light gray
+\e[90m  Dark gray
+\e[91m  Light red
+\e[92m  Light green
+\e[93m  Light yellow
+\e[94m  Light blue
+\e[95m  Light magenta
+\e[96m  Light cyan
+\e[97m  White
+```
