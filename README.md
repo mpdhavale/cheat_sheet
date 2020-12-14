@@ -1,3 +1,5 @@
+[sed](https://github.com/mpdhavale/cheat_sheet#sed-examples)
+
 -------------------
 # Setup
 
@@ -800,11 +802,15 @@ sed -i '/SOMESTRING/a This is what gets added' file
 ```
 Note that you don't need quotes for the added line. Not sure if escaping something gives you the literal \.
 
-### Comment out lines that contain a certain string:
+## Comment out lines that contain a certain string:
 ```
 sed -i '/SOMESTRING/ s/^/\#/g' file
 ```
 
+## Delete lines containing a certain string:
+```
+sed -i '/SOMESTRING/d' file
+```
 
 -------------------
 # awk examples
