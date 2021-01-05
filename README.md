@@ -1182,6 +1182,11 @@ do
 done
 ```
 
+## See what libraries an executable relies on (list dynamic dependencies): 
+```
+ldd $PATH_TO_EXECUTABLE
+```
+
 
 -------------------
 # User accounts
