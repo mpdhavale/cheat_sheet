@@ -434,6 +434,10 @@ StrictHostKeyChecking no
 ssh-keygen -R $HOSTNAME
 ```
 
+## Generate id_rsa.pub from id_rsa:
+```
+ssh-keygen -y -f ~/.ssh/id_rsa > ~/.ssh/id_rsa.pub
+```
 
 ## Getting graphical stuff to work:
 ```
