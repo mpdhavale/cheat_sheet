@@ -1104,6 +1104,12 @@ This generates a numbered list of the sessions that yum knows about. Pick which 
 yum history info ${NUM}
 ```
 
+# Clean up an old local repo:
+```
+rm $(repomanage -o /path/to/repo)
+createrepo /path/to/repo
+```
+
 
 -------------------
 # Processes/limits/monitoring
