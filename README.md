@@ -869,6 +869,11 @@ awk -F: '$1 !~ /^root$/ && $2 !~ /^[!*]/ && $4 < 1 {print $1}' /etc/shadow
   
 This gives you all users whose "time between password changes" is set to zero days. 
 
+## Getting the first instance of a column and the rest of the columns
+```
+awk '!seen[$1]++ {print $1,$2,$3...}
+```
+
 
 -------------------
 # find
