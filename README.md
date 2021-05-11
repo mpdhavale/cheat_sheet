@@ -1,4 +1,8 @@
-[sed](https://github.com/mpdhavale/cheat_sheet#sed-examples)
+[Setup](#setup)
+[Troubleshooting](#troubleshooting)
+[Vim](#vim)
+[sed](#sed-examples)
+
 
 -------------------
 # Setup
@@ -55,7 +59,7 @@ date -d@${EPOCH}
 
 
 -------------------
-# Troubleshooting:
+# Troubleshooting
 
 ## Get a list of all processes sorted by memory used:
 ```
@@ -75,7 +79,7 @@ The calculation of "memory used" in top/free is according to RES.
 
 
 -------------------
-# Vim:
+# Vim
 
 ## Minimal ~/.vimrc config:
 Turns off colors and beeps. 
@@ -397,7 +401,7 @@ column -t file.txt
 
 
 -------------------
-# SSH / X11 / vnc
+# SSH/X11/vnc
 
 ## List SSH sessions:
 ```
@@ -716,7 +720,7 @@ startvnc
 
 
 -------------------
-# Files and directories:
+# Files and directories
 
 ## Using mkdir to create multiple directories at once:
 ```
@@ -895,12 +899,12 @@ find . -newermt "2019-09-30 00:00:00" ! -newermt "2019-10-01 00:00:00"
 
 
 -------------------
-# Bash cheat sheet:
+# Bash cheat sheet
 http://mywiki.wooledge.org/BashFAQ
 
 
 -------------------
-# Flow control:
+# Flow control
 
 ##  Using a find command to properly process files/directories that have spaces:
 ```
@@ -1280,7 +1284,7 @@ certutil -decode putty.txt putty.exe
 
 
 -------------------
-# Kerberos / Samba
+# Kerberos/Samba
 
 ## Test samba is working:
 ```
@@ -1854,7 +1858,7 @@ chown root:root /usr/local/sbin/after-boot
 
 
 -------------------
-# Disks / file systems
+# Disks/filesystems
 
 ## Mount a UNC path:
 ```
