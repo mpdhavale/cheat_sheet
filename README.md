@@ -732,6 +732,11 @@ mkdir path/{subdir1,subdir2,subdir3}
 ls -1 $PATH | xargs -n1 basename
 ```
 
+## Truncate a log while the application is up:
+```
+truncate -s 0 logname.log
+```
+	
 ## Robocopy example:
 ```
 robocopy "\\x7022499\VMs\rhel7-hardened-safe-server-10282019" C:\Users\AC43487\Documents /TBD /V /S /E /DCOPY:DA /COPY:DAT /Z /MT:16 /R:5 /W:5
