@@ -109,7 +109,7 @@ Sometimes neither this nor dos2unix work.  Try this instead:
 -------------------
 # LDAP
 
-## Example ldapsearch:
+## Example ldapsearches:
 ```
 ldapsearch -v -h ${IDM/AD_HOST} -b "CN=users,cn=accounts,DC=${DOMAIN},DC=com" -D "uid=${BIND_ACCOUNT},CN=users,CN=accounts,DC=${DOMAIN},DC=com" -x -w '${BIND_ACCOUNT_PASSWORD}' -ZZ
 CN=users,CN=accounts,DC=${DOMAIN},DC=com
@@ -119,7 +119,11 @@ Notes:
  - `-b` is the search base (where you want to find entries).
  - `-D` is the bind DN account used to connect to the IDM/AD host.
  - Everything at the end is what you want to find (in this case, all users).
- 
+
+```
+ldapsearch -v -H ldaps://domaincontroller.domain.com/ -D "bindaccount@domain.com" -w 'password' -x -b 'CN=GroupofUsers,OU=WhereGroupIs,DC=domain,DC=com'
+```
+
 
 -------------------
 # Networking
