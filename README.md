@@ -1777,7 +1777,12 @@ See what you've already got installed with:  pip list
 
 -------------------
 # selinux
-
+			   
+## Get a clue about what's blocked:
+```
+audit2allow -w -a
+```
+			   
 ## Get detailed output:
 ```
 yum install setroubleshoot
