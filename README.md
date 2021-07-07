@@ -403,7 +403,17 @@ cat file.txt | paste -sd? -
 column -t file.txt
 ```
 
-
+-------------------
+# SSSD
+	
+## Clear sssd cache
+Use this when you update AD attributes for a user.
+Restarting sssd will not clear the cache!
+```
+sss_cache -u $USERNAME
+```
+	
+	
 -------------------
 # SSH/X11/vnc
 
