@@ -1476,6 +1476,10 @@ keytool -exportcert -alias racdbkey -file cartesian.crt -rfc -keystore owfRACDBt
 echo | openssl s_client -showcerts -connect localhost:8443  < /dev/null | openssl x509
 openssl s_client -showcerts -connect localhost:8443 </dev/null
 ```
+For a mail server, use:
+```
+openssl s_client -showcerts -connect ${MAILSERVER}:${PORT} -starttls smtp
+```
 
 ## List contents of certificate:
 ```
