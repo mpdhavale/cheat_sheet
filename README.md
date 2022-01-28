@@ -921,7 +921,12 @@ find . -newermt "2019-09-30 00:00:00" ! -newermt "2019-10-01 00:00:00"
 # Bash cheat sheet
 http://mywiki.wooledge.org/BashFAQ
 
-
+	 
+-------------------
+# Regex tester:
+http://regex101.com
+	  
+	  
 -------------------
 # Flow control
 
