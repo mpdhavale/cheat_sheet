@@ -2214,8 +2214,20 @@ oscap xccdf eval --remediate --profile stig-rhel7-disa --results scan-sccdf-resu
 Re-scan with DISA content:
 ```
 oscap xccdf eval [--fetch-remote-resources] --profile stig-rhel7-disa --results post_scan.xml --report --post_scan.html /usr/share/xml/scap/ssg/content/ssg-rhel7-xccdf.xml
-```
-
+``
+			   
+-------------------
+# Cisco/Juniper
+			   
+## View logs
+`show log messages`
+			   
+## View specific logs, grep for pattern
+Get filename from:  
+`show log`
+Then use filename like:
+`show log messages.8.gz | match ${PATTERN}`
+			   
 
 -------------------
 # Kubernetes
