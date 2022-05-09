@@ -2220,13 +2220,19 @@ oscap xccdf eval [--fetch-remote-resources] --profile stig-rhel7-disa --results 
 # Cisco/Juniper
 			   
 ## View logs
-`show log messages`
+```
+show log messages
+```
 			   
 ## View specific logs, grep for pattern
 Get filename from:  
-`show log`
+```
+show log
+```
 Then use filename like:
-`show log messages.8.gz | match ${PATTERN}`
+```
+show log messages.8.gz | match ${PATTERN}
+```
 			   
 
 -------------------
