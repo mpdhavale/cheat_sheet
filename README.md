@@ -360,6 +360,12 @@ EOF
 # Call with:
 echo "$VAR"
 ```
+	
+### Pass variables to an interactive command, non-interactively, with a herestring:
+For example, print all unread messages in a mailbox:
+```
+mailx -R -f $YOURMAILBOX <<< "p :u"
+```
 
 ## Use tail to show you everything after a certain line (inclusive):
 ```
